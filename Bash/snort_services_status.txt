@@ -1,0 +1,43 @@
+#!/bin/bash
+#After creating, make it an executable (chmod +x) and add to crontab doing: 
+#1) crontab -e
+#2) @reboot /path/to/executable
+
+#~~~~~~~~~~~~~~~~~~SNORT CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+snort=$(service snort status | grep -o "Active: active")
+up="Active: active"
+
+if [ "$snort" = "$up" ]; then
+	echo "Snort is UP"
+else
+       	echo "Snort is DOWN"
+	service snort status
+fi
+
+#~~~~~~~~~~~~~~~~~~APACHE CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+apache=$(service apache2 status | grep -o "Active: active")
+
+if [ "$apache" = "$up" ]; then
+	echo "BASE is UP"
+else
+        echo "BASE is DOWN"
+	service apache2 status
+fi
+
+
+
+#~~~~~~~~~~~~~~~~~~BARNYARD2 CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+barnyard2=$(service barnyard2 status | grep -o "Active: active")
+
+if [ "$barnyard2" = "$up" ]; then
+	echo "barnyard2 is UP"
+else
+        echo "barnyard2 is DOWN"
+	service barnyard2 status
+fi
+

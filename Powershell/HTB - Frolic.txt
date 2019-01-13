@@ -1,0 +1,86 @@
+HackTheBox - Frolic
+Date: 10/13/18
+
+1) Zenmap comprehensive scan on 10.10.10.111
+    # found additonal UDP ports: 137 (netbios-ns),138 (netbios-dgm),688 (realm-rusd),789,2222 (msantipiracy),3283(netassitant),6002 (x11:2),16832,17359,18996,20206,21261,32769 (filenet-rpc),37212,45818
+    # looked in msfconsole but didn't find anything
+
+2) nmap -sV 10.10.10.111
+22/tcp   open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 (Ubuntu Linux; protocol 2.0)
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+445/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+9999/tcp open  http        nginx 1.10.3 (Ubuntu)
+Service Info: Host: FROLIC; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+3) msfconsole
+ $ search name:ssh platform: linux
+
+  x exploit/multi/ssh/sshexec             1999-01-01       manual     SSH User Code Execution
+   post/linux/manage/sshkey_persistence                   excellent  SSH Key Persistence
+   post/multi/gather/ssh_creds                            normal     Multi Gather OpenSSH PKI Credentials Collection
+
+ $ search name:Samba smbd 3.X - 4.X (workgroup: WORKGROUP) platform:Linux
+
+  x exploit/linux/samba/chain_reply          2010-06-16       good       Samba chain_reply Memory Corruption (Linux x86)
+  x exploit/linux/samba/is_known_pipename    2017-03-24       excellent  Samba is_known_pipename() Arbitrary Module Load
+  x exploit/linux/samba/lsa_transnames_heap  2007-05-14       good       Samba lsa_io_trans_names Heap Overflow
+  x exploit/linux/samba/setinfopolicy_heap   2012-04-10       normal     Samba SetInformationPolicy AuditEventsInfo Heap Overflow
+  x exploit/linux/samba/trans2open           2003-04-07       great      Samba trans2open Overflow (Linux x86)
+  x exploit/multi/samba/nttrans              2003-04-07       average    Samba 2.2.2 - 2.2.6 nttrans Buffer Overflow
+
+4) armitage
+    $ hail mary!!
+    
+    # no active sessions
+
+5) search name:nginx 1.10.3 platform: Linux
+
+  x exploit/linux/http/nginx_chunked_size  2013-05-07       great  Nginx HTTP Server 1.3.9-1.4.0 Chunked Encoding Stack Buffer Overflow
+
+
+https://www.tldp.org/HOWTO/SMB-HOWTO-8.html
+6) $ smbclient -L 10.10.10.111
+
+Enter WORKGROUP\root's password:            # just clicked enter here
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	print$          Disk      Printer Drivers
+	IPC$            IPC       IPC Service (frolic server (Samba, Ubuntu))
+Reconnecting with SMB1 for workgroup listing.
+
+	Server               Comment
+	---------            -------
+
+	Workgroup            Master
+	---------            -------
+	HTB                  SECNOTES
+	WORKGROUP            FROLIC
+	YPUFFY               YPUFFY
+
+
+    $ smbclient \\\\10.10.10.111\\IPC$ #or $ smbclient //10.10.10.111/
+    <no password>
+
+    smb: \>  #connected to the share
+
+    $ smbclient //10.10.10.111/print$ -N #-N means no passwd prompt
+    tree connect failed: NT_STATUS_ACCESS_DENIED
+
+    #this means we need a password to access the higher level account
+
+7) $ nmblookup -A 10.10.10.111
+	FROLIC          <00> -         B <ACTIVE> 
+	FROLIC          <03> -         B <ACTIVE> 
+	FROLIC          <20> -         B <ACTIVE> 
+	..__MSBROWSE__. <01> - <GROUP> B <ACTIVE> 
+	WORKGROUP       <00> - <GROUP> B <ACTIVE> 
+	WORKGROUP       <1d> -         B <ACTIVE> 
+	WORKGROUP       <1e> - <GROUP> B <ACTIVE> 
+
+	MAC Address = 00-00-00-00-00-00
+
+
+*************** FAILED *******************************
+So far, I got access to the smb via IPC$ but unable to go any further because I constantly got denied permissions for any of the commands
+I attempted to run (ls, dir, etc.). The error I got was, "NT_STATUS_OBJECT_NAME_NOT_FOUND listing \*".

@@ -1,0 +1,33 @@
+NASM (Netwide Assembler) - Hello World! - 11/4/18
+
+; I learned this for a CTF and is copied from https://www.tutorialspoint.com/assembly_programming/assembly_basic_syntax.htm
+; section.text holds the contents
+; section .data declares the intialized data/constants
+
+; in a file named *.asm place the code at the bottom in it and save
+$ nasm -f elf *.asm     
+        -f is a command to set the format which is elf (.exe for linux) in this case and we'll get a *.o file as a result
+$ ld -m elf_i386 -s -o * *.o         
+        -m represents "emulator" but my interpretation is the assembly language which is intel's x86 on an elf file. 
+        -s is for stripping all symbols (not sure what this means). 
+        -o is outputting to a specified file
+$ ./*           ; should get the "Hello, world!" output
+
+section	.text
+   global _start     ;must be declared for linker (ld)
+	
+_start:	            ;tells linker entry point
+   mov	edx,len     ;message length
+   mov	ecx,msg     ;message to write
+   mov	ebx,1       ;file descriptor (stdout)
+   mov	eax,4       ;system call number (sys_write)
+   int	0x80        ;call kernel
+	
+   mov	eax,1       ;system call number (sys_exit)
+   int	0x80        ;call kernel
+
+section	.data
+msg db 'Hello, world!'  ;string to be printed. As of now, single or double quotes don't make a visible difference
+len equ $ - msg     ;length of the string
+
+

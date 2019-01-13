@@ -1,0 +1,62 @@
+Received: from BN3PR08MB1953.namprd08.prod.outlook.com (10.165.121.13) by
+ DM3PR08MB1962.namprd08.prod.outlook.com (10.164.252.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.260.4 via Mailbox Transport; Tue, 28 Nov 2017 20:42:03 +0000
+Authentication-Results: utsa.edu; dkim=none (message not signed)
+ header.d=none;utsa.edu; dmarc=none action=none header.from=utsa.edu;
+Received: from BN6PR08MB2673.namprd08.prod.outlook.com (10.172.148.143) by
+ BN3PR08MB1953.namprd08.prod.outlook.com (10.165.121.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.20.260.4; Tue, 28 Nov 2017 20:42:02 +0000
+Received: from BN6PR08MB2673.namprd08.prod.outlook.com ([10.172.148.143]) by
+ BN6PR08MB2673.namprd08.prod.outlook.com ([10.172.148.143]) with mapi id
+ 15.20.0260.007; Tue, 28 Nov 2017 20:42:02 +0000
+Content-Type: application/ms-tnef; name="winmail.dat"
+Content-Transfer-Encoding: binary
+From: Holly Richards <Holly.Richards@utsa.edu>
+To: Terri Davis <terri.davis@utsa.edu>
+Subject: It's Giving Tuesday! Keith Fairchild Fund
+Thread-Topic: It's Giving Tuesday! Keith Fairchild Fund
+Thread-Index: AdNoiTrOBsfe7MTUSuODT0t7qWU7dA==
+Date: Tue, 28 Nov 2017 20:41:54 +0000
+Message-ID: <BN6PR08MB2673191F49095CE50292580DF73A0@BN6PR08MB2673.namprd08.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator: <BN6PR08MB2673191F49095CE50292580DF73A0@BN6PR08MB2673.namprd08.prod.outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-Organization-MessageDirectionality: Originating
+X-MS-Exchange-Organization-AuthSource: BN6PR08MB2673.namprd08.prod.outlook.com
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-Originating-IP: [129.115.2.247]
+X-MS-Exchange-Organization-Network-Message-Id: 258505c6-a5d8-4c38-53d5-08d536a07ab6
+X-MS-PublicTrafficType: Email
+X-Microsoft-Exchange-Diagnostics: 1;BN6PR08MB2673;35:cB1hjiDNdsOzDA6X34HkcW9FKSLpZB02Qn+J2yYWOlnI8A3KwOvDQAtxFsHRN94LwK79qaezSsmK94ukU8fx3w==
+Return-Path: Holly.Richards@utsa.edu
+X-MS-Office365-Filtering-Correlation-Id: 258505c6-a5d8-4c38-53d5-08d536a07ab6
+X-Microsoft-Antispam: UriScan:(230362995610740);BCL:0;PCL:0;RULEID:(4534020)(4602075)(4627115)(8989060)(201703031133081)(201702281549075)(8990040)(5600026)(4604075)(2017052603199)(49563074);SRVR:BN3PR08MB1953;
+X-Microsoft-Exchange-Diagnostics: 1;BN3PR08MB1953;3:48+3fzZLa7H0qNvzor1TWPpltf2XnG9X5qhiKFY1a+PPfWdHrQj9R24NhebduzAIOCmiNEFg3UCa5HYHK0gsj9Hi+A8ujSO3cfQd1x2iv8uJ6CvIF+aSY+1czjPdyfGmGeZk3Ze/SGhGmVsV8ZBSBRNMZ3vM/AZhqjeCivtMyyJ455Iy8kKaKezBo5ejlUcZZSpabpnGpZ18gt36gxzHEFgjz11IMTwZtQjsdBv+wh+jscWX/6o9rCvqgW2AVIqtWJgDfXnZ9OC68Ndp/ILnJJtyWlmfNsfYkPMSbeIQEwY=;25:XtjDerSrc61IfW68WpzNA/y8ftJUOi2EeMq7SvO3AELkiW3qhoKRag4jwB3QofHG+5uWP83CKVCE3lScQDhvKxDWRFC6gFYkWvXssTl1hOnF3IegpyXUYoQMjQ/rxiQO9TpcyCfh+wOkRWrvjV18a6+BjfGXQW9Fbwpx+NktwvhlO+VV6bFSK7nWFzWrxp8X58V6QnRcVfUlXw8b+qrHuLNiMbK8EeLM/WrC6RyKkozftBQ+IcMmjNfOtN6LLwW5fNHblMjtPjTrydgU9oQ7fwex/s8nPdCN38YhUNL/Nls4Exxh0gkqH4uLM7TA2jxvnvK4Q/phByi6gp82vOjPPQ==;31:/9Mye8pTYc5M/FFAylV41eYOIYkz4/M2dp3ze6i5ypX0XxE2IDG1eObsBVTh502OENPwL8p1BRrp6EO5xtFz4/llSbWqpX77Zl/uPPn1vLvXdLoV4StxmCNGXPx2C4SL33VEXqqM1MP9JK7Gf6nCHWCzb31hK6YKy4WcbDRyxD/2ULfbUDc3bRlt3hcUzf6lhrxd+9OwH7YkSed22B8BBoEw8rLEkq8LCh/BoEJ8+Ns=
+X-MS-TrafficTypeDiagnostic: BN3PR08MB1953:
+X-Microsoft-Exchange-Diagnostics: 1;BN3PR08MB1953;20:RrEtNC70Djsf0ObvPfwlXax/M/0rwiTZkF1xIJQxYAEasnDOPLVwyRaevuhPLzDAE1V8kaaW6c2VGY/T4vG72DPJDN/QnRMkYOiTuCAHY35uCgoGyIw4LSjcNdVDi2UJnDJcFH8ok/R9uIienBNiD1kayc1Jw9D9P7F0/Dc/R9EQVxFZOT8Tj2ehbOVtiWXRpQVK4U/Qfcq1vDevvzqFTP3+S2jSGEP0nMCBXXmrpTBiNRUDr5gz7Yl8e6TVR08e/XnkkRRfWlBWij59hbCIuCbHJESKHUZksChDeBtGofHa97tvE1wA8bQl1+8Gz5+g1Bepx05RDwIqXsykn6e3ubnst6PqdxySnh2RfOLsxk7jFedZei5AUfNQ3voNo3zLZF4WT/RLXm5lGdm/vrP2pp1CN+RAFNadKsosd41sXIRWFjwvGel2+viQbvuJbYgXQX/3DX+TwV3HoaFwfo7k04h/dq4rUNoc2YxY54CGPYLFJ6LcSMoRwvCPMxuT0QSf;4:j7wux+C4Cx48xk+S7EeBRpkZoN0cH+fwcxQEmJ3EfgHIsobun/D6M8Vi9uTpDvqKI98Ji9Jejo8nHoyityRzoMAgKoxkALWbxqsyoV/j01ehUGjcygfYZJIuCN+fhGDIFwU6stBC0q96PAL16CENwwpEei2MNMcir41JB3CR37D5UYDTXJ+xlypWUq8IgdhVFNq7Fu4VkZnSz7KVfiCqK8jjxwBhw4ohUIF1HOf8YU7GVcMRpc+g26m/2rbq0i1jqIME0mdWumfaAJG/PILybGZooY4OHAK5sCXDC6Z43z5ZB4n01T3KePfUQg0IrrGKQedTT7bkIVhV9uSJiAclXesbEmw68J8uxg0FLieKZKjxPFqNqIF/KEcxvqV+MyfzlwzYg93ysNxjuzJwz2eqq0eSFynej6gR9s1OZO5auCM=
+X-Exchange-Antispam-Report-Test: UriScan:(227612066756510)(21748063052155)(128428861625915)(230362995610740);
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:(102415395)(9101524173)(2401047)(8121501046)(3002001)(93006095)(93001095)(10201501046)(3231022)(201708071742011);SRVR:BN3PR08MB1953;BCL:0;PCL:0;RULEID:(100000803101)(100110400095);SRVR:BN3PR08MB1953;
+X-Forefront-Antispam-Report: SFV:SKI;SFS:;DIR:INB;SFP:;SCL:-1;SRVR:BN3PR08MB1953;H:BN6PR08MB2673.namprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;
+X-Microsoft-Exchange-Diagnostics: 1;BN3PR08MB1953;23:yL9DHWlec1KCMCCR02PALxKM7Aq8KUmaFozkUuuyya+71g1Onjh7QduuGxjJfjWMts0hBmas9ULVpmO++4hFr/Lmni1UEzjjCb73VWeNMxNiAIkk+S9yABVMZbj/KsINyhCcHuxJd8g6ch62YTytUQ==;6:38fWHHAeRU6o7x83SBTFFxkzrifOS6fo8c+b4tpOcIGKVtiTVjlf2hS3a7WS64W+tU70r0Zpb5XajEDH78MR5zqVlNREeIA27JHepWTuztrgyHktwQVDW42SnkSjyKcf3UPZAfaSArLaW9abOK3SnIhCIQXgctv/YOuigUtCyYq/9Chx52WwLb7dlIlrK/Cngg+jbx5Gt5JAY+4pheycyxRNOCs+fY7qZn45IGk1ZnsbEyZ0vTPFZuggdIXkZe0kBpid+pJS1MCJ7n5TFu3R16LcrTfzEXR/tVrykX847C6dlNM2Le3OtJmgAPLc47I/jbAEzj9CPUshHQN20eC8VHrJ6JSbNsqvGV7dCqET/NM=;5:IN9CQx0knbW55O2lcjvW9Hmzf4w2+2zVhQygdPE5zZsm2HEYn7kXO3Fs0Qv2PYDhDGNgnq+vkbSL6u3a3LV1smSG0DNULH/+pSuGET16jwFksAh/EVWqjAja+zkKVyd819WHFTkQiGrXeRqrchmOys5oGdNlf2HbSG/R0hsqVJA=;24:pcPNuovfHK0BluXJ44m8UN6QvC30zbJ1msRxwctPaJokoYqWF2+S5Fu05NPH8RAMIH59x8fldshx/VuD4Vmj7jUuSWGWQr5pxZLMTISelfU=
+X-MS-Exchange-ABP-GUID: b251ee7f-a4d2-4db4-8a5e-13e13af12ed1
+SpamDiagnosticOutput: 1:0
+X-Microsoft-Exchange-Diagnostics: 1;BN3PR08MB1953;7:JLEBHku/PXiniIzYJj4ndNPr/m/nkxlHEmhJkS8Af7t1rTE5vhYBv4ZIu++qoYf32PMWP/a3Y4erqynw3IFEySVOAc9H1iEZ7Eu70sOXnAl0EQKTHmq7g+utb+xRsgTN2n1954X2QU4MCMbh/fP3vSK++RpyHjqYubwYn+5IO22ITGAsE0cGpzSwTKwhjp94Mbi4YQ8BEg8iYPEzAbfieAFnF1U58rIKNVam9jsGZxejLP5heXnXxYBFYPyozK+e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2017 20:41:54.2354
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3a228dfb-c647-44cb-8835-7b20617fc906
+X-MS-Exchange-CrossTenant-Network-Message-Id: 258505c6-a5d8-4c38-53d5-08d536a07ab6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR08MB1953
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:09.0407717
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.0260.000
+X-Microsoft-Exchange-Diagnostics:
+	1;DM3PR08MB1962;9:0/1ijJG6HlP/BAIko1WL+pJRCtmZdUG0WPH/OmSlpS/EZR8kF69cKi3ir310bX4aBGFi9OB4NRuwRz1bzm1HYplQ+5Qj9N1wgxI3FzmgRohPeM+WU3Ern42LguzYM+2V
+X-Microsoft-Antispam-Message-Info:
+X-Microsoft-Exchange-Diagnostics:
+	1;DM3PR08MB1962;27:vL4nfBCucjatpFFxicaIKGYCTarTes95K1HAaOFkDArjKKxqx72Ghyktu3N9a1orTORF3vUMXIOS/Fu7/FKRIbz6IuHuqhxyJd6hEOoA3vhybv0J//x1AkIeEazo4mm3

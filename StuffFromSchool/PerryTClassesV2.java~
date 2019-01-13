@@ -1,0 +1,34 @@
+import java.util.Scanner; 
+import java.util.Calendar;
+import java.text.DecimalFormat;
+
+/**
+
+@(#)PerryTClassesV2
+@author Trevon Perry
+@version 1.00 2016/04/27@ 10:45
+
+PROGRAM purpose: Display/print a sales receipt for customers who purchase from Fairytale Sweets,
+but,allow the customer to change the current candy selection.This program is the same as PA1 except for the changes articulated below
+*/
+
+public class PerryTClassesV2
+{
+  public static void main (String []args)
+  {
+    Degree degree = new Degree();
+    String print = "";
+    
+    for(int x = 0; x<2; x++)
+    {
+      degree.prompt();
+      if(x==0)
+        print += "%nFirst Degree:  "+degree.getDegree()+" "+degree.getMajor();
+      else if(x==1)
+        print +="%nSecond Degree:  "+degree.getDegree()+" "+degree.getMajor();
+    }
+    
+    System.out.printf(print);
+    System.exit(0);
+  }
+}

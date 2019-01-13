@@ -1,0 +1,22 @@
+subprocess - create a bash wrapper in python
+
+Help = subprocess? or subprocess.call?
+
+Function #1 - call:
+	ex1: (best way)
+	{
+	import subprocess
+
+	subprocess.call("ls -l", shell=True)
+	}
+
+
+	ex2: 
+	{
+	import subprocess
+
+	subprocess.call(["ls", "-l"])
+	}
+
+
+Function #2 - 

@@ -1,0 +1,4 @@
+Powershell line to setup a firewall rule
+
+
+New-NetFirewallRule -DisplayName "Block Ukraine Scanner" -Direction Outbound –LocalPort Any -Protocol TCP -Action Block -RemoteAddress 176.119.7.0/24, 193.106.29.74

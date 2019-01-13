@@ -1,0 +1,54 @@
+#!/bin/bash
+#threshold
+#detection_filter:track by_src, count 5, seconds 120
+
+
+cat /etc/snort/rules/snort.rules | grep -io "threshold:.[A-Z].*[seconds|count] [0-9]*;" > /tmp/snortCopyTmp.txt
+
+i=0
+count=0
+seconds=0
+replace=""
+
+while IFS='' read -r snortCopyTmp || [[ -n "$snortCopyTmp" ]];
+do
+######################################## store count & seconds variables ########################
+	echo $i
+	array[$i]="$snortCopyTmp"
+	compare=$(echo ${array[$i]} | grep -Eo "[seconds|count]* [[:digit:]]+,")
+
+	echo ${array[$i]} #used to check if the values were correctly transferred
+
+	if [[ $compare = *"count"* ]]; then
+		count=$(echo ${array[$i]} | grep -Eo "count]* [[:digit:]]+," | grep -Eo "[[:digit:]]+")
+		seconds=$(echo ${array[$i]} | grep -Eo "seconds|* [[:digit:]]+;" | grep -Eo "[[:digit:]]+")
+ 
+	else
+		count=$(echo ${array[$i]} | grep -Eo "count]* [[:digit:]]+;" | grep -Eo "[[:digit:]]+")
+		seconds=$(echo ${array[$i]} | grep -Eo "seconds|* [[:digit:]]+," | grep -Eo "[[:digit:]]+")
+	fi
+
+
+######################################### replace ##############################################
+	if [[ ${array[$i]} = *"by_src"* ]]; then
+		echo "*within replace if*detection_filter:track by_src, count $count, seconds $seconds;"
+		replace=$(echo "detection_filter:track by_src, count $count, seconds $seconds;")
+		echo $replace
+	else
+		echo "*within replace if*detection_filter:track by_dst, count $count, seconds $seconds;"
+		replace=$(echo "detection_filter:track by_dst, count $count, seconds $seconds;")
+		echo $replace
+	fi
+	echo "*after ifs*detection_filter:track by_whatever, count $count, seconds $seconds;"
+
+################################ SWAP WITH MAIN FILE ##########################################
+	
+	sed -i -e "0,/threshold:.*[seconds|count] [[:digit:]]*;/s/threshold:.*[seconds|count] [[:digit:]]*;/$replace/g" regexPractice
+
+	echo "*after sed*detection_filter:track by_whatever, count $count, seconds $seconds;"
+
+	((i++))
+done<snortCopyTmp.txt
+
+
+#rm -r snortCopyTmp.txt

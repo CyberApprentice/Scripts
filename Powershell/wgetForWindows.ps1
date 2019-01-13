@@ -1,0 +1,1 @@
+﻿(new-object System.Net.WebClient).DownloadFile('https://rules.emergingthreats.net/open/suricata/rules/','C:\Users\User\Desktop\file\')

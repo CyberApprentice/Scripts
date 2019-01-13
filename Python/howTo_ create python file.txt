@@ -1,0 +1,14 @@
+Creating a python text file
+
+-Include "#!/usr/bin/env python" as the header
+
+Ex1:
+{
+#!/usr/bin/env python
+
+def sum():
+    sum=0
+    sum = 1+1
+    print "the sum of 1+1 is %s" % sum
+
+}

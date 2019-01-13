@@ -1,0 +1,22 @@
+~~~PowerShell~~~
+
+How to set a temporary alias for the PS session
+	(1) Set-Alias [alias] [location]
+
+	
+Testing execution of command
+	-confirm
+		*used when changing something
+		ex: Stop-Process -id [PID] -confirm
+
+Option to hold the ouput in a variable
+		-OutVariable
+		ex: echo something -OutVariable hi; $hi; #outputs "hi"
+	
+Updating
+	(1) Update-Help -Module * -Force
+	
+Loops
+	For
+		basic syntax: For($i=0; $i -le 10; $i++) {}
+		-le = "length"

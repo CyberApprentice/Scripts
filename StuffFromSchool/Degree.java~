@@ -1,0 +1,51 @@
+import java.util.Scanner; 
+import java.util.Calendar;
+import java.text.DecimalFormat;
+
+/**
+
+@(#)Degree
+@author Trevon Perry
+@version 1.00 2016/04/27@ 10:45
+
+PROGRAM purpose: Display/print a sales receipt for customers who purchase from Fairytale Sweets,
+but,allow the customer to change the current candy selection.This program is the same as PA1 except for the changes articulated below
+*/
+
+public class Degree
+{
+  private static String degree = "";
+  private static String major = "";
+  private static Scanner input = new Scanner(System.in);
+  public Degree()
+  {
+    
+  }
+  public Degree(String degree, String major)
+  {
+    this.degree = degree;
+    this.major = major;
+  }
+  
+  public static void prompt()
+  {
+    System.out.printf("What is your degree?  ");
+    degree = input.nextLine();
+    
+    System.out.printf("What is your major?  ");
+    major = input.nextLine();
+  }
+  
+  public static String getMajor()
+  {
+    return major;
+  }
+  
+  public static String getDegree()
+  {
+    return degree;
+  }
+      
+                       
+  
+}

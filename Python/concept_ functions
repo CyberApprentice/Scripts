@@ -1,0 +1,21 @@
+Functions/methods
+
+ex 1:
+{
+	def pyfunc():
+		print "Hello Function"
+
+	pyfun 
+
+	output: 
+		{ 
+		Out[22]: <function __main__.pyfunc>
+		}
+
+	pyfunc()
+
+	Output:
+	{
+	Hello Function
+	}
+}

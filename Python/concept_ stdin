@@ -1,0 +1,19 @@
+Take input from user
+
+strings: 
+
+-Takes in numbers and strings but the value is stored as a string. 
+
+ex1:
+{
+	raw_input("What is the word or number? ")
+}
+
+Ints:
+
+-Stored as an integer
+
+ex1:
+{_
+	input("What is the number? ")
+}

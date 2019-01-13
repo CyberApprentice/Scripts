@@ -1,0 +1,18 @@
+Loops
+
+For:
+	ex1:
+	{
+	for i in range(5):
+		print "hello"
+	}
+	def 
+	Output:
+		{
+		hello
+		hello
+		hello
+		hello
+		hello
+
+		}
