@@ -1,0 +1,30 @@
+15.5 - refcall_smart_pointer
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new refcell_smart_pointer
+
+    2. Crates
+        N/A
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - refcell is similar to box<t> as it is single-threaded, both allow immutable or mutable references, and single ownership. The difference lies in the enforcement of Rust borrowing rules for Box<T> is handled at compile time while RefCell is at runtime.
+        - At runtime, if there is an error, the code will panic
+        - At compile time, if there is an error, the code will not compile
+        - This is if you're sure the code follows the borrowing rules
+    - Another highlight of refcell is that it allowsmutating the value inside the refcell<T> even when the refcell<T> value is immutable
+        - termed interior mutability
+    - 

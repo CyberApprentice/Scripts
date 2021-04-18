@@ -1,0 +1,83 @@
+Struct Example
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new struct_rectangles
+
+    2. Crates
+        N/A
+
+    3. Code
+        // Goal: Take the width and height of a rectangle specified in pixels and calculate the area of the rectangle
+
+        /* How to do it w/o using structs
+
+        fn main()
+        {
+            let width1 = 30;
+            let height1 = 50;
+            println("The area of the rectangle is {} square pixels.", area(width1, height1));
+        }
+
+        fn area(width: u32, height: u32) -> u32
+        {
+            width * height
+        }
+
+        */
+
+        /* Another way to do it, but using Tuples
+
+        fn main() 
+        {
+            let rect1 = (30,50);
+            println("The area of the rectangle is {} square pixels.", area(rect1));
+        }
+
+        fn area(dimensions: u32, u32)) -> u32
+        {
+            dimensions.0 * dimensions.1         // The problem with tuples is the lack of naming convention to recognize that index 0 = width and index 1 = height, making it easier to make mistakes and cause errors
+        }
+
+
+        */
+
+        // Solving the issue using Structs
+        #[derive(Debug)]    // a useful debug "trait" to enable the use of {:?} or {:#?} for printing structs
+        struct Rectangle
+        {
+            width: u32,
+            height: u32,
+        }
+
+        fn main()
+        {
+            
+            let rect1 = Rectangle
+            {
+                width: 30,
+                height: 50,
+            };
+            
+            println!("The area of the rectangle is {} square pixels.", area(&rect1));   // we are passing the reference to not get rid of ownership
+
+            println!("rect1 is {:#?}", rect1);  // How to print a struct - use {:?} or {:#?}
+        }
+
+        fn area (rectangle: &Rectangle) -> u32
+        {
+            rectangle.width * rectangle.height
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - To print a struct, add "#[drive(Debug)]" above the struct definition and print via "{:#?}" instaed of "{}"

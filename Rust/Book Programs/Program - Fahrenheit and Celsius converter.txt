@@ -1,0 +1,144 @@
+Problem: Convert temperatures between Fahrenheit and Celsius.
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new fahrenheit_and_celsius_converter
+
+    2. Crates
+        use std::io;
+
+    3. Code
+        use std::io;
+
+        /* This program is coverting between both Celsius and Fahrenheit 
+            The formula for C to F is: F = (C * 9 / 5) + 32
+            The formula for F to C is: C = (F - 32) * 5 / 9
+        */
+
+        /*
+                        Issues
+            Error handling: [UNSOLVED]
+                - When the initial choice is prompted, the user is asked to choose 1 or 2. If the User enters a number higher than 2, it works as expected due to an if statement.
+                    However, once a user inputs any other characters, e.g. a letter, there is no feedback due to the "Err(_) => continue," (38) lines. Tried to add "invalid input",
+                    but the type expected is an Integer. There is a chapter within the book that convers error handling in more detail. I am not yet equiped to handle this issue until
+                    I've read that chapter.
+            Percision:   [SOLVED]
+                - When a calculation is done, it goes as far out as 36.666668 for example. The perferred limit is 100ths place (e.g. 36.67).
+                [SOLVED] - Fixed by adding :.2 within the {} variable placeholder. The .2 presents the 100ths place. .1 = 10s, .3 = thousands, etc.
+        */
+
+        fn main()
+        {
+            loop
+            {
+                println!("Pick a number below:");
+                println!("[1] Convert from Fahrenheit to Celsius");
+                println!("[2] Convert from Celsius to Fahrenheit");
+                println!("[3] Quit (or Ctrl+C)");
+
+                // Input desired is an integer but must first be accepted as a String and then converted.
+                let mut answer = String::new();         // defining empty String variable
+                
+                io::stdin()
+                    .read_line(&mut answer)             // function to read user input and store it inside the String variable
+                    .expect("Failed to read line");     // error handling
+
+                let answer: u8 = match answer
+                                        .trim()         // remove \n from user input
+                                        .parse()        // Converts String to Integer
+                                    {
+                                        // This section must be inside a loop to work, due to the "continue"
+                                        // num is a crate used to present any number. This will confirm or deny the conversion.
+                                        // _ is anything that results in error
+                                        Ok(num) => num,
+                                        Err(_) => continue,
+                                    };
+
+                if answer == 1
+                {
+                    println!("Enter the Fahrenheit value to convert, please:\t");
+                    
+                    let mut f_value = String::new();
+
+                    // Another user input and conversion to Integer
+                    io::stdin()
+                        .read_line(&mut f_value)
+                        .expect("Failed to read line");
+                    let f_value: f32 = match f_value            // f64 is used by default. Although it provides better precision, it is not needed here. f32 provides more performance than f64.
+                                            .trim()
+                                            .parse()
+                                            {
+                                                Ok(num) => num,
+                                                Err(_) => continue,
+                                            };
+
+                    // Passing the Interger to the function for calculation
+                    f_to_c(f_value);
+                }
+                else if answer == 2
+                {
+                    println!("Enter the Celsius value to convert, please:\t");
+
+                    let mut c_value = String::new();
+
+                    // Another user input and conversion to Integer
+                    io::stdin()
+                        .read_line(&mut c_value)
+                        .expect("Failed to read line");
+                    let c_value: f32 = match c_value
+                                            .trim()             
+                                            .parse()            
+                                            {
+                                                Ok(num) => num,
+                                                Err(_) => continue,
+                                            };
+
+                    c_to_f(c_value);
+                }
+                else if answer == 3
+                {
+                    break;
+                }
+                else
+                {
+                    println!("Invalid choice!");
+                }
+            }
+        }
+
+        fn f_to_c(f_value: f32)
+        {
+            // C = (F - 32) * 5 / 9
+
+            let c_value: f32 = (f_value - 32.0) * 5.0 / 9.0;
+
+            println!("The conversion of {:.2} degrees Fahrenheit is: {:.2} degrees Celsius.", f_value, c_value);
+        }
+
+        fn c_to_f(c_value: f32)
+        {
+            // F = (C * 9 / 5) + 32
+
+            let f_value: f32 = (c_value * 9.0 / 5.0 ) + 32.0;
+
+            println!("The conversion of {:.2} degrees Celsius is: {:.2} degrees Fahrenheit.", c_value, f_value);
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - When you define a variable for holding user input, it must be mutable
+    - To get user input as an integer, it has to be accepted as a String and converted to an integer
+    - Define floating percision by adding :.2 within {} like {:.2} to get only the 100ths place
+    - When performing arithmetic, data types must match. I attempted a floating point minus an integer, and it failed. They both must be floating points.
+
+Solved = 1
+Unsolved = 1

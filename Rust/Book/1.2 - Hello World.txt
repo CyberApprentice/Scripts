@@ -1,0 +1,29 @@
+1.2 - Hello World
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+    IDE: Visual Studio Code
+
+Steps:
+    1. Code
+
+        fn main() {
+            println!("Hello, world!");
+        }
+
+    2. Compile
+        $ rustc hello_world.rs
+
+    3. Run the file
+        $ ./hello_world.rs
+
+
+Learned:
+    - fn main() = first code run in any program
+    - println! = calls a macro
+    - println = calls a function
+    - uses semicolons to end statements

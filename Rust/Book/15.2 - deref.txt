@@ -1,0 +1,61 @@
+15.2 - deref
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new deref
+
+    2. Crates
+        use std::ops::Deref;    // to implement the Deref trait
+
+    3. Code
+        fn main()
+        {
+            let x = 5;
+            let y = &x;
+
+            assert_eq!(5, x);
+            assert_eq!(5, *y);  // follow the reference to compare i32 to i32 and not i32 to &i32 (different types)
+
+            //implementing deref example
+            let x = 5;
+            let y = MyBox::new(x);
+            assert_eq!(5, x);
+            assert_eq!(5, *y);
+        }
+
+        struct MyBox<T>(T);
+        impl<T> MyBox<T>
+        {
+            fn new(x: T) -> MyBox<T>
+            {
+                MyBox(x)    // return the value as a MyBox instance
+            }
+        }
+        use std::ops::Deref;    // import the trait
+        impl<T> Deref for MyBox<T>
+        {
+            type Target = T; //associate type
+
+            fn deref(&self) -> &T
+            {
+                &self.0 // return a reference to the value we want to dereference
+            }
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - the dereference operator (*) follows the reference to the actual value, rather than a reference to the value's datatype
+        - Ex: x = 1; 
+            y = &x;
+            // y = &i32
+            // *y = 1
+    - When creating custom types/objects (e.g. struct), to dereference the type, you must implement the deref trait

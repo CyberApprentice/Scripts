@@ -1,0 +1,29 @@
+16.1 - Threads
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new threads
+
+    2. Crates
+        N/A
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - executed program's code is ran as a process. Executing independent parts of that code are called threads
+    - runtime - default code in every binary 
+    - Rust uses 1:1 model for threading to keep the binary/runtime small
+        - This model is where the number of threads used are one Rust thread per operating system thread
+    - The join() blocks the current thread running until the other thread finishes
+    - Within a separate thread, if you try to reference a variable in a different thread (e.g. main thread), this causes ownership problems because the current thread could has an unpredictable lifetime and could run infinitely in the background with an invalid reference (PROBLEM!)

@@ -1,0 +1,105 @@
+Control Flow
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new control_flow
+
+    2. Crates
+        N/A
+
+    3. Code
+        3.1 Code (if/else)
+            fn main()
+            {
+                let number = 3;
+
+                // true statement
+                if number < 5       // conditon is if number is less than 5
+                {
+                    println!("condition was true");
+                }
+                else                // else are optionals
+                {
+                    println!("condition was false");
+                }
+
+                //false statement
+
+                let number = 7;
+                
+                if number < 5
+                {
+                    println!("condition was true");
+                }
+
+                else
+                {
+                    println!("condition was false");
+                }
+
+                // not condition
+
+                if number != 0
+                {
+                    println!("Number was something other than zero");
+                }
+
+                // else if example
+                
+                let number = 6;
+
+                if number % 4 == 0
+                {
+                    println!("number is divisible by 4");
+                }
+                else if number % 3 == 0
+                {
+                    println!("number is divisible by 3");
+                }
+                else if number % 2 == 0
+                {
+                    println!("number is divisible by 2");
+                }
+                else
+                {
+                    println!("number is not divisible by 4, 3, or 2");
+                }
+
+                // if within a let statement
+
+                let number = if true {5} else {6};     
+                println!("the value of number is: {}", number);
+            }
+        3.2 Code (loops)
+
+
+    4. run
+        $ cargo run
+
+Learned:
+    - if/else constructs
+        - If/else statements NEED brackets, even if it's only a one line body.
+        - Else are optionals
+        - Conditions must equate to boolean value
+            - Can use true/false
+            - Does not convert condition to boolean
+        - For else/if, it checks all the conditions linearly until it finds the first match and ignores the others
+        - 'if' is an expression (curly brackets) and can be used with let statements
+            - numbers by themselves are also expressions
+        - The return value within an if/else/ifelse statement MUST return the same data type
+            - Ex: i32 data type must be in the if and else return statement; it cannot be i32 and u32.
+    - loop constructs
+        - "loop" is an endless loop
+        - Use "break" to logically end the loop
+            - Break will only end the loop, not the entire program.
+            - Use "break <return expression>" syntax to return a value after ending the loop
+        - While loops are slow and error prone for iterating through collections. So we use for loops
+        - For loop is the most common in Rust
+

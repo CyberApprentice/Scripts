@@ -1,0 +1,267 @@
+Final project
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new hello
+
+    2. Crates
+        use std::io::prelude::*;    // needed to read and write from streams
+        use std::net::TcpListener;  // to listen for TCP connections
+        use std::net::TcpStream;
+        use std::fs;    // read from a file
+        use hello::ThreadPool;  // import the library crate
+        use std::thread;    // used for JoinHandle
+        use std::sync::mpsc;    // for creating channels 
+        use std::sync::{Arc, Mutex};    // to share ownership across multiple threads and mutate the value
+
+    3. Code
+        main.rs
+            use std::io::prelude::*;    // needed to read and write from streams
+            use std::net::TcpListener;  // to listen for TCP connections
+            use std::net::TcpStream;
+            use std::fs;    // read from a file
+            use hello::ThreadPool;  // import the library crate
+
+            fn main()
+            {
+                let listener = TcpListener::bind("127.0.0.1:7878").unwrap(); // bind to the following address & port and stop the program upon failure
+                let pool = ThreadPool::new(4);  // the limit of threads
+
+                for stream in listener.incoming().take(2) //iterate through each client request and server response
+                                                            // take(2) limits the number of requests. After receiving 2, the workers gracefully shutdown.
+                {
+                    let stream = stream.unwrap();
+
+                    pool.execute (||    // make it multi-threaded
+                    {
+                        handle_connection(stream);
+                    });
+
+                    println!("Shutting down.");
+                    
+                }
+
+            }
+
+            fn handle_connection(mut stream: TcpStream) // stream requires mutability because of the internal state can be changed, even when only being read
+            {
+                let mut buffer = [0;1024];  // the size in bytes of predicted incoming requests to be reserved on the stack
+                stream.read(&mut buffer).unwrap();  // read bytes from the stream parameter and put them in the buffer
+
+                //println!("Request: {}", String::from_utf8_lossy(&buffer[..]));  // covert the bytes from the Buffer into a String and print
+                let get = b"GET / HTTP/1.1\r\n";    // expected request to the home page, /
+                                                    // b"" = raw bytes rather than String
+                /* repetitive code way
+                if buffer.starts_with(get)  // if the home page is requested, give them what they want
+                {
+                    
+                    let contents = fs::read_to_string("hello.html").unwrap();   // read from the file
+
+                    //let response = "HTTP/1.1 200 OK\r\n\r\n";    // a http response
+                    let response = format! // used to add the file's contents as the body of the HTTP response
+                    (
+                        "HTTP/1.1 200 OK\r\nContent-Length: {}\r\n\r\n{}",
+                        contents.len(), // sets the size of the response body
+                        contents    // the HTML
+                    );
+
+                    stream.write(response.as_bytes()).unwrap(); // convert the response string into bytes and send it down the connection
+                    stream.flush().unwrap(); // wait till all bytes have been sent before the program continues
+                }
+
+                else    // if the client requests anything other than the home page (/)
+                {
+                    let status_line = "HTTP/1.1 404 NOT FOUND \r\n\r\n";   // response
+                    let contents = fs::read_to_string("404.html").unwrap(); // read html file
+
+                    let response = format!("{}{}", status_line, contents);
+
+                    stream.write(response.as_bytes()).unwrap();
+                    stream.flush().unwrap();
+                }
+                Repetitive code way */
+
+                let (status_line, filename) = 
+                    if buffer.starts_with(get)
+                    {
+                        ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
+                    }
+                    else
+                    {
+                        ("HTTP/1.1 404 NOT FOUND\r\n\r\n", "404.html")
+                    };
+
+                let contents = fs::read_to_string(filename).unwrap();
+                let response = format!("{}{}", status_line, contents);
+
+                stream.write(response.as_bytes()).unwrap();
+                stream.flush().unwrap();
+            }
+        lib.rs
+            use std::thread;    // used for JoinHandle
+            use std::sync::mpsc;    // for creating channels 
+            use std::sync::{Arc, Mutex};    // to share ownership across multiple threads and mutate the value
+
+            pub struct ThreadPool  // for allowing a set number of threads to run concurrent requests
+            {
+                workers: Vec<Worker>,   // Worker is the type that will fill the thread 
+                sender: mpsc::Sender<Message>,  
+            }
+
+
+            type Job = Box<dyn FnOnce() + Send + 'static>;  // type alias to shorthand the long signature
+
+            impl ThreadPool
+            {// /// are used along with cargo doc --open
+                /// Create a new ThreadPool.
+                ///
+                /// The size is the number of threads in the pool.
+                ///
+                /// # Panics
+                ///
+                /// The `new` function will panic if the size is zero.
+                pub fn new(size:usize) -> ThreadPool    // create a new instance and accepts a parameter, which is the number of threads available
+                {
+                    assert!(size > 0);  // we need at least 1 thread to process a request. Anything less than 1 will panic
+                    
+                    let (sender,receiver) = mpsc::channel();    // create a new channel
+                    let receiver = Arc::new(Mutex::new(receiver));
+
+                    let mut workers = Vec::with_capacity(size); // more efficient than new() since we know the length the vector will be
+                    
+                    for id in 0..size
+                    {
+                        workers.push(Worker::new(id, Arc::clone(&receiver))); // create Worker nodes and push them to the vector
+                                                                                // we are cloning to share ownership of the receiver
+                    }
+                    ThreadPool {workers, sender}
+                }
+                pub fn execute<F> (&self, f: F) // adopted from thread::spawn docs
+                where
+                    F: FnOnce() + Send + 'static,   //fnOnce because the thread will execute the request once
+                                                    // Send to pass the closure from one thread to another
+                                                    // 'static as the lifetime specifier as we don't know how long the thread will take to execute
+                    {
+                    let job = Box::new(f);   // create a job instance
+                    self.sender.send(Message::NewJob(job)).unwrap();  // send it down the channel 
+                    }
+            }
+
+            impl Drop for ThreadPool    // for cleaning up of threads
+            {
+                fn drop(&mut self)
+                {
+                    println!("Sending terminate message to all workers.");
+
+                    for _ in &self.workers  // iterate through each worker
+                    {
+                        self.sender.send(Message::Terminate).unwrap();  // pass Terminate to workers
+                    }
+                    println!("Shutting down all workers.");
+
+                    for worker in &mut self.workers // iterate through each thread
+                    {
+                        println!("Shutting down worker {}", worker.id);
+
+                        if let Some(thread) = worker.thread.take()  // takes the Some variant out and leaves None in its place
+                        {
+                            thread.join().unwrap();
+                        }
+                    }
+                }
+            }
+
+            struct Worker
+            {
+                id: usize,  // represents the identifer for each thread
+                thread: Option<thread::JoinHandle<()>>,
+            }
+
+            impl Worker
+            {
+                fn new (id: usize, receiver: Arc<Mutex<mpsc::Receiver<Message>>>) -> Worker
+                {
+                    let thread = thread::spawn(move || loop // look for job, take ownership of job 
+                        {
+                            let message = receiver.lock().unwrap().recv().unwrap();  // lock() acquires the mutex (change of ownership)
+                                                                                    // recv() takes a job from the channel
+                            match message
+                            {
+
+                                Message::NewJob(job) =>
+                                {
+
+                                    println!("Worker {}  got a job; executing.", id);
+                                    job();
+                                }
+
+                                Message::Terminate =>
+                                {
+                                    println!("Worker {} was told to terminate", id);
+                                    break;
+                                }
+                            }                
+                        });
+                    
+                    Worker 
+                    {
+                        id, 
+                        thread: Some(thread),
+                    }
+                }
+            }
+
+            enum Message    // properly assign jobs rather than just waiting
+            {
+                NewJob(Job),
+                Terminate,
+            }
+        404.html
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <title>Hello!</title>
+            </head>
+            <body>
+                <h1>Oops!</h1>
+                <p>Sorry, I don't know what you're asking for.</p>
+            </body>
+            </html>
+        hello.html
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <title>Hello!</title>
+            </head>
+            <body>
+                <h1>Hello!</h1>
+                <p>Hi from Rust</p>
+            </body>
+            </html>
+    4. run
+        $ cargo run
+
+Learned:
+    - if a function returns "Result<T, E>", that means it could panic. Something like .unwrap() is needed to handle the error.'
+    - HTTP request example:
+        - GET / HTTP/1.1\r\n
+            - get = method
+            - / = URI or directory
+            - HTTP/1.1 = version used
+            - \r\n = CRLF (carriage return) = new line
+    - HTTP response example:
+        - HTTP/1.1 200 OK
+            - HTTP/1.1 = version
+            - 200 = status code. 200 means successful response
+            - OK = a description of the status code
+    - Have limitations when using thread pools. Having an unlimited # of concurrent threads leaves the web server vulerable to DoS attacks
+

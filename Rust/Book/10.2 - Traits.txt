@@ -1,0 +1,126 @@
+Traits
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new traits
+
+    2. Crates
+        N/A
+
+    3. Code
+        pub trait Summary
+        {
+            // custom implementation
+            fn summarize (&self) -> String; // common behavior between all structs that implement this trait
+
+            // default implementation example
+            fn summarize2(&self) -> String
+            {
+                String::from("(Read more...)")  // default implementation. Called when .summarize() called. Can be overridden.
+            } 
+
+            // default implementation referencing a custom implementation example
+            fn summarize3_author(&self) -> String;   // requires implementation block
+            fn summarize3(&self) -> String
+            {
+                format!("(Read more from {}}...)", self.summarize3_author())
+            }
+        }
+
+        pub struct NewsArticle
+        {
+            pub headline: String,
+            pub location: String,
+            pub author: String,
+            pub content: String,
+        }
+
+        impl Summary for NewsArticle    // NewsArticle adopts Summary trait
+        {
+            fn summarize(&self) -> String
+            {   // custom action when .summary() is called
+                format!("{}. by {} ({})", self.headline, self.author, self.location)
+            }
+        }
+
+        pub struct Tweet
+        {
+            pub username: String,
+            pub content: String,
+            pub reply: bool,
+            pub retweet: bool,
+        }
+
+        impl Summary for Tweet // Tweet adopts Summary trait
+        {
+            fn summarize(&self) -> String
+            {   // custom action when .summarize() is called with variables that utilize Tweet struct
+                format!("{}: {}", self.username, self.content)
+            }
+        }
+
+        let tweet = Tweet
+            {
+                username: String::from("horse"),
+                content: String::from("of course, as your..."),
+                reply: false,
+                retweet: false,
+            };
+        println!("1 new tweet: {}", tweet.summarize()); // call the summarize trait
+
+        println!("New article available! {}", article.summarize2());    // calls the default parameter.
+
+        println!("1 new tweet: {}", tweet.summarize3()); // calls summarize3 default trait, that refers to the custom traitm summarize3_author
+
+        // implement a trait on a parameter passed to a fucntion
+        pub fn notify(item: &impl Summary)  // syntax is of type "&impl Trait_name"
+        // pub fn notify<T: Summary>(item: &T) is the verbose version of &impl Summary
+        {
+            println!("Breaking news! {}", item.summarize());    // now we can call the summarize() method
+        }
+
+        // implementing multiple traits
+        pub fn notify(item: &(impl Summary + Display)) {}   // use the +
+        // pub fn notify<T: Summary + Display> (item: &T){} // verbose version
+
+        // Using "where" clause to shorten function signature
+        //From:
+        fn some_function<T: Display + Clone, U:Clone + Debug> (t: &T, u: &U) -> i32 {}
+        //To:
+        fn some_function<T, U>(t: &T, u: &U) 
+            where   T: Display + Clone,
+                    U: Clone + Debug
+                    {}
+
+        // Return a trait example
+        fn returns_summarizable() -> impl Summary   // "impl Trait_name" syntax
+        {   // in this case, we return a struct
+            Tweet
+            {
+                username: String::from("horse"),
+                content: String::from("horse poop"),
+                reply: false,
+                retweet: false,
+            } // no semi-colon because expression to be returned
+        }
+
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Everything is in the lib.rs file
+    - default parameters do not require implementation blocks
+    - using default traits and custom traits can be used across structs that have the same arms (e.g. author, name, date, location, etc)
+        - name would be in the default trait and then there would be supportive custom traits that are referenced via {}
+            - Example: format!("The book is by {}, and the book title is {}", self.author, self.book_title())
+        - When implementing a trait on a struct, you can set conditions on the trait's bounds
+            - Ex: impl <T: Display + Partial0rd> Pair <T> {}
+                - This will only be implemented if the types passed to Pair<T> are both Display + Partial0rd compatible

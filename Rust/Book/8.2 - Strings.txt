@@ -1,0 +1,100 @@
+Strings
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new strings_in_depth
+
+    2. Crates
+        N/A
+
+    3. Code
+        #[allow(unused_variables)]  // ignore unused variable warnings
+        #[allow(unused_mut)]  // ignore unused mutable variable warnings
+
+        fn main()
+        {
+            // Creating a string
+            let mut s = String::new();
+
+            // filling a string with data
+            let data = "initial contents";
+
+            let s = data.to_string();                   // All 3 of these have the same result
+            let s = "intiial contents".to_string();
+            let s = String::from("initial contents");
+
+            // demoing UTF-8 encoding
+
+            let hello = String::from("你好");
+
+            // Concatenating Strings
+
+                // method 1 - using push_str()
+            let mut s = String::from("Hello");
+            s.push_str(", World");     // push_str() parameter takes a string slice to not take ownership so we can print in later.
+            println!("{}", s);  // prints "Hello, World"
+                
+                // method 2 - using push()
+            s.push('!');    // push() only appends single characters
+            println!("{}", s); // prints "Hello,, World!"
+
+                // method 3 (don't do)  - using + operator
+            let s1 = String::from("Hello");
+            let s2 = String::from(", World!");
+            let s3 = s1 + &s2;      // s1 can no longer be used because we transferred ownership
+                                    // It also has to be a "String type + &str" format, or it will error because of the + operator
+            println!("{}", s2);
+            
+                // method 4 - using format!
+            
+            let s1 = String::from("tic");
+            let s2 = String::from("tac");
+            let s3 = String::from("toe");
+
+            let s = format!("{}-{}-{}", s1, s2, s3);        // format! does NOT take ownership!
+                                                            // returns a String type
+            // Indexing Strings
+
+                // Method 1 - string slice
+            println!("{}", &"hello"[..]);   // referencing the index of one position in a String will throw an error because it is UTF-8. However, with caution, ranges are possible
+
+                // Method 2 - chars()
+            for c in "hello".chars()
+            {
+                println!("{}", c);  // returns individual unicode scalar values, 'h', 'e', 'l', 'l', 'o' for this example
+                                    // However, for something like "नमस्ते" (4 characters), it will return: 'न', 'म', 'स', '्', 'त', 'े' (6 characters)
+            }
+
+                // Method 3 - bytes()
+            for b in "hello".bytes()
+            {
+                println!("{}", b);  // return the raw byte value: 104, 101, 108, 108, 111
+            }
+
+
+
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Rust has one String data type, the string slice (i.e. &str)
+        - it is UTF-8 encoded
+        - Rust has other string types within the Rust Standard Library, such as: String, CString, CStr, and more
+    - Concatenating two strings
+        - When using the '+' sign, things get messy - bottom line, don't use it
+            - You can only add a String and &str type, never two &str or two String types
+    - Indexing strings
+        - Rust does not accept string[0] because it is UTF-8 encoded.
+            - Although a string like "hello"[0] (5 bytes) might seem to return 'h', another UTF-8
+            string such as "Здравствуйте"[0] (24 bytes) will return an unexpected value because [0] 
+            is seen by Rust as an invalid character since each of those characters are represented
+            by 2 bytes (e.g. 3 = 2 bytes when [0] is trying to index half of it = Rust Panic).

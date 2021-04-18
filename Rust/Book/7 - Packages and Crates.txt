@@ -1,0 +1,50 @@
+Packages and Crates
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new packages_crates
+
+    2. Crates
+        N/A
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - crate is a binary or library
+    - package are multiple Crates
+        - packages contain cargo.toml
+        - only contain 0 or 1 library crate
+        - as many binary crates as desired
+    - Modules organize code in a crate within groups
+        - also has public and private distinctions
+            - public allows the code to be used outside
+            - private limits the code only within the file
+    - To create a library, do "cargo new --lib <name>"
+        - Output will be a src/lib.rs file
+    - absolute paths are preferred because it is more likely to move code definitions and item calls
+        - "super::" = ..
+    - Modules and all other programming features (functions, methods, structs, etc.) are inheritly private based off their indentation
+        - ancestor modules are accessible across each other, but child modules must be made "public"
+    - Setting a struct to public will only make the struct public, not the key:value pairs. Each of these have to be made public individually
+    - Setting an enum to public will make all of its variants public
+    - The "use" keyword is similar to a shortcut to the module's directory
+    - You can change the "use" result with the "as" keyword
+    - Use "#[allow(unused_imports)]" to ignore warnings!
+    - "Use" is also private by default. We can use "pub" as well
+        - This is called re-exporting
+    - To bring in multiple crates without taking up vertical space, nest them using {}
+        - use "self" to import the entire path
+    - Glob operator = *
+        - bring all public items defined in a path into scope
+    - When bringing in multiple files, the files and folders have to be the same name as the module/function/etc.

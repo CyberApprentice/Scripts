@@ -1,0 +1,48 @@
+enum if let
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new enum_if_let
+
+    2. Crates
+        N/A
+
+    3. Code
+        fn main()
+        {
+            // regular match block
+            let some_u8_value = Some(0u8);
+            match some_u8_value
+            {
+                Some(3) => println!("Three"),
+                _ => (),
+            }
+
+            // the same block but using if-let
+
+            if let Some(3) = some_u8_value
+            {
+                println!("Three");
+            }
+            // adding and else statement
+            else
+            {
+                println!("Not three");
+            }
+            
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Used to match ONE pattern
+    - Can also be paired with "else" statements
+        - This would be equivalent to the "_ => ()" line

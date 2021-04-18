@@ -1,0 +1,114 @@
+16.2 - Sending messages between threads
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new thread_messaging
+
+    2. Crates
+        use std::sync::mpsc; // for the channel
+        use std::thread;    // to create threads
+        use std::time::Duration; // for time delay
+
+    3. Code
+        use std::sync::mpsc; // for the channel
+        use std::thread;    // to create threads
+        use std::time::Duration; // for time delay
+
+        fn main()
+        {
+            // example 1 - sending 1 transmitted message
+            let (tx, rx) = mpsc::channel(); 
+
+            thread::spawn(move || 
+            {
+                let val = String::from("hi");   // the message we are sending
+                tx.send(val).unwrap();  // send the message and panick if something happens
+            });
+
+            let received = rx.recv().unwrap();  // pause the main threads execution until it has received something from the channel
+            println!("Got: {}", received);
+
+            let (tx, rx) = mpsc::channel(); 
+
+            // example 2 - sending multiple messages
+            thread::spawn(move ||
+            {
+                let vals = vec![        // create a vector of strings
+                    String::from("hi"),
+                    String::from("from"),
+                    String::from("the"),
+                    String::from("thread"),
+                ];
+
+                for val in vals // iterate through the vector
+                {
+                    tx.send(val).unwrap();  // send each element down the channel
+                    thread::sleep(Duration::from_secs(1));  // 1 second pause before looping
+                }
+            });
+
+            for received in rx  // use rx as an iterator for incoming 
+            {
+                println!("Got: {}", received);  // print each element
+            }
+
+            // example 3 - using multiple transmitters
+            let (tx, rx) = mpsc::channel();
+
+            let tx_clone1 = mpsc::Sender::clone(&tx);   // create another transmitter
+            thread::spawn(move||
+            {
+                let vals = vec!
+                [
+                    String::from("hi"),
+                    String::from("from"),
+                    String::from("the"),
+                    String::from("thread"),
+                ];
+
+                for val in vals
+                {
+                    tx_clone1.send(val).unwrap();           // this thread is for the clone!
+                    thread::sleep(Duration::from_secs(1));
+                }
+            });
+
+            thread::spawn(move||
+            {
+                let vals = vec!
+                [
+                    String::from("more"),
+                    String::from("messages"),
+                    String::from("for"),
+                    String::from("you"),
+                ];
+
+                for val in vals
+                {
+                    tx.send(val).unwrap();  // this thread is for the initial transmitter
+                    thread::sleep(Duration::from_secs(1));
+                }
+            });
+
+            for received in rx
+            {
+                println!("Got: {}", received);
+            }
+
+
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - channels work by having multiple senders, and only one sender
+        - think of multiple rivers flowing into the ocean
+    - the thread must have ownership of the transmitter variable (so use "move" in the closure)

@@ -1,0 +1,23 @@
+How to install Go on Ubuntu
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Resources: 
+    - https://golang.org/doc/install
+
+Steps:
+    1. Download latest OS stable package from https://golang.org/dl/
+    2. Extract it in /usr/local
+        # tar -C /usr/local -xzf go1.15.4.linux-amd64.tar.gz
+    3. Add /usr/local/go/bin to the PATH environment variable.  
+        $ export PATH=$PATH:/usr/local/go/bin
+        $ source $HOME/.profile
+    4. Test
+        $ go version
+        
+

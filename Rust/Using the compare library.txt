@@ -1,0 +1,24 @@
+Using the compare library
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new <name>
+        
+    2. Crates
+        <crates>
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - 

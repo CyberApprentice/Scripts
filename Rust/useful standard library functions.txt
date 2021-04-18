@@ -1,0 +1,14 @@
+useful standard library functions
+
+.as_str() // convert String literal to string slice
+split('.').next().expect("Could not find a '.'")    // split by period
+.collect() // convert to a collection
+.clone()    // creates a copy
+.unwrap_or_else(|err| { println!(" there was an error: {}", err)})  // a default error message with the associated error (err). There must be an error returned to be passed to this function
+.lines() // iterate through lines of text
+.contains()     // check if a value is true
+.to_lowercase() // convert the string to lowercase
+.pop()  // returns None or the element with the largest index
+.push() // appends an element
+.iter() // treats the type as an iterator
+.enumerate()    // adapts an interator type to produce the element and the index in the following syntax: (index, value)

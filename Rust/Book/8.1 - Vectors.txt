@@ -1,0 +1,88 @@
+Template
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new <name>
+
+    2. Crates
+        N/A
+
+    3. Code
+        #[allow(unused_variables)]  // ignore variable warnings
+        fn main()
+        {   
+            
+            // create a new vector instance of type i32
+            let v: Vec<i32> = Vec::new();       // empty vector
+
+            // Create a vector instance with values of i32
+            let v = vec![1,2,3];        // the "vec!" is a macro that will automatically detect the values given. i32 is the default integer data type
+
+            // Add elements to a vector
+            let mut v = Vec::new();     // empty vector
+
+            v.push(5);  // add the i32 integer 5 to the vector
+                        // i32 is inferred from the data we push to it
+
+            // referencing values
+            let v = vec![1, 2,3,4,5];
+            
+                // method 1
+            let third: &i32 = &v[2];        // we are referencing an i32 data type at position 2 of the vector 'v'
+            println!("The third element is {}", third);
+            // i32 is returned
+
+                // method 2
+            match v.get(2)
+            {
+                Some(third) => println!("The third element is {}", third),
+                None => println!("There is no third element"),
+
+                // Option<&T> is returned
+            }
+
+
+            // Iterating through vectors
+
+                // immutable example
+            let v = vec![1,2,3];
+            for i in &v
+            {
+                println!("{}", i);
+            }
+
+                // mutable reference
+            let mut v = vec![1,2,3];
+            for i in &mut v
+            {
+                *i += 50;   // derefrence i, before we can use +=. More on this later
+            }
+            
+
+
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Vector - a collection that allows you to store any number of values into one data structure
+        - All values must be the same type
+        - Represented by Vec<T> 
+        - Since a vector can change in size (i.e. grow larger or decrease in size), that means it is stored on the heap
+    - Scope is also applied to vectors
+        - important when references are used
+    - to retrive vector elements', the get method is preferred over the indexing method
+        - The get method provides a process to handle out-of-bounds errors, which prevents crashing/panicks
+    - To pass a vector to a function, do below:
+        let number_list= vec![1, 2, 3, 4, 5];
+        let result = largest_i32(&number_list); // largest_i32 is the name of the function
+
+        fn largest_i32(list: &[i32]) -> i32 {}  // square brackets of the type within the vector

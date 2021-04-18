@@ -1,0 +1,123 @@
+Functions
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new functions
+        
+    2. Crates
+        N/A
+
+    3. Code
+        // main function
+
+        fn main()
+        {
+            println!("Hello World!");
+
+            another_function();
+            another_function2(2);
+            another_function3(5,7);
+            statement_example();
+            expression_example(3);
+
+            let x = return_function();
+            println!("The value of x is {}", x);
+
+            let y = return_2_function(5);
+            println!("The value of y is {}", y);
+
+        }
+
+
+        // declaring a new function
+
+        fn another_function()
+        {
+            println!("Another function.");
+        }
+
+        // Declaring a new function w/ parameters
+
+        fn another_function2(x: i32)
+        {
+            println!("The value of x is: {}", x);
+        }
+
+        // function with multiple parameters
+
+        fn another_function3(x: i32, y: i32)
+        {
+            println!("The value of x is: {}.\nThe value of y is: {}.", x, y);
+        }
+
+        //statement example
+        fn statement_example()
+        {
+            let x = 3;  // this is a statement
+            // The function itself is an expression
+
+            println!("The value of x is {}", x);
+        }
+
+        // expression example
+        fn expression_example(z: i32)
+        {
+            let y =  
+            {
+                z + 2
+            };
+
+            println!("The value of y is {}", y);
+
+            // the previous block is an expression because it returns the value x+2 as it is within a block "{}"
+            // The function itself is an expression
+        }
+
+        // Return values
+
+        fn return_function() -> i32
+        {
+            5       // In other languages, a "return 5" is required, however, the last expression is implicitly the return value. The "return" keyword does work though.
+        }
+
+        // Return example 2
+        fn return_2_function(x: i32) -> i32
+        {
+            let x = x + 1;  // statement because it ends with semicolon
+            x - 2           // expression that returns a value. No semicolon.
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Everything uses snake case = everything lowercase and space separations is represented by underscore '_'
+    - Declare a function syntax: fn <function name>() {}
+    - Main function is first to run. It's placement doesn't matter (i.e. whether main() is defined at the top or bottom of the code, it will always run first.)
+    - parameters defined in functions must always have the data type specified
+    - Rust distincts statements (e.g. defining variables) and expressions. Statements do not return values.
+        - An example that will fail: x = y = 6
+    - Expressions are anything that return values: blocks of code, functions, macros, operations, etc.
+        - Statement example: let x = 3
+        - Expression example: let x = 
+                                {
+                                    let y = 2;
+                                    y + 1
+                                };
+            - In-function brackets require a semi-colon at the end of the bracket, as seen above
+    - Function returns
+        - Functions return the last expression implicitly so a "return" keyword is not required
+        - Functions with returns require a "-> <data type>" to set the return value's data type
+            - Ex: fn five() -> i32 {5}
+                - The returned value, 5, data type is set to i32
+        - Return values we want to return do not end in a semi-colon. With the example above, "5;" would cause an error
+            - This is because '5' is an expression. Expressions do not have semicolons.
+            - Only statements end with semicolons
+    

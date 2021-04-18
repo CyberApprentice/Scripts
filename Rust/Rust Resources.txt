@@ -1,0 +1,10 @@
+Rust Resources
+
+Rust official pages: https://www.rust-lang.org/
+Rust official book/docs: https://doc.rust-lang.org/book/
+Rust default library: https://doc.rust-lang.org/std/index.html
+Rust crates: https://docs.rs/
+Other Rust official resources: https://www.rust-lang.org/learn
+Local documentation after install Rust: $ rustup doc
+Open source Rust projects and registry: https://crates.io/
+Rust official Forums: https://users.rust-lang.org/

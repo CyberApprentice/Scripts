@@ -1,0 +1,61 @@
+15.3 - Drop trait
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new drop_trait
+
+    2. Crates
+        N/A
+
+    3. Code
+        struct CustomSmartPointer
+        {
+            data: String,
+        }
+        impl Drop for CustomSmartPointer
+        {
+            // this will implicitly run at the end of scoping
+            fn drop(&mut self)
+            {
+                println!(" Dropping CustomSmartPointer with data {}!", self.data);
+            }
+        }
+        #[allow(unused_variables)]
+        fn main()
+        {
+            let c = CustomSmartPointer
+            {
+                data: String::from("stuff 1"),
+            };
+
+            let d = CustomSmartPointer
+            {
+                data: String::from("stuff 2"),
+            };
+
+            println!("CustomSmartPointers created.");
+
+            // clean up instances early example
+            let e = CustomSmartPointer
+            {
+                data: String::from("stuff 3"),
+            };
+            drop(e);    // e is cleaned up before the end of scope
+        } // drop() is run here
+
+    4. run
+        $ cargo run
+
+Learned:
+    - The drop trait - when happens when a value goes out of scope (i.e. cleanup)
+    - Drop is automatically ran at the end of scoping
+    - variables are dropped in reverse order from creation
+    - constructor - a function that creates an instance
+    - destructor - a function that cleans up an instance

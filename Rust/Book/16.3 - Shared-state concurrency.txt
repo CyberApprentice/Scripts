@@ -1,0 +1,66 @@
+16.3 - Shared-state concurrency
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new shared_state_concurrency
+
+    2. Crates
+        use std::sync::Mutex;   // import crate to use mutexs
+        use std::sync::Arc; // to safely have multiple owners of a variable
+        use std::thread;    // for creating threads
+
+    3. Code
+        use std::sync::Mutex;   // import crate to use mutexs
+        use std::sync::Arc; // to safely have multiple owners of a variable
+        use std::thread;    // for creating threads
+
+        fn main()
+        {
+            // example 1 - single thread
+            let m = Mutex::new(5); // we create a new mutex with the initial value of 5
+
+            {// define scoping
+                let mut num = m.lock().unwrap();    // requesting the lock; then panick if the lock in another thread's possession panicks
+                *num = 6;   // we must first dereference to refer to the value being pointed to (mutex is a smart pointer). Here we are referring to the i32 data type, rather than Mutex<i32>
+            }// end scoping
+
+            println!("m = {:?}", m);
+
+            // example 2 - multiple threads
+            let counter = Arc::new(Mutex::new(0));  // create an instance of a Mutex with the initial value of 0. It is wrapped as an Arc so the variable's ownership can be safely passed across different threads
+            let mut handles = vec![];   // create an empty vector
+
+            for  _ in 0..10 // no variable to use, jut go from 0 to 9
+            {
+                let counter = Arc::clone(&counter); // clone the original variable to be passed 
+                let handle = thread::spawn(move || // create a thread
+                {
+                    let mut num = counter.lock().unwrap();  // ask for the lock
+                    *num += 1;  // increment the value by 1
+                });
+
+                handles.push(handle);   // store the value within the vector
+            }
+
+            for handle in handles
+            {
+                handle.join().unwrap(); // wait till each thread finishes before continuing
+            }
+
+            println!("Result: {}", *counter.lock().unwrap());   // print the value
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - mutex (mutual exclusion) = one thread can access some data at a given time
+        - It tracks who is accessing the data at the given time by assiging a "lock"
+    - join() waits till each thread finishes processing before moving on

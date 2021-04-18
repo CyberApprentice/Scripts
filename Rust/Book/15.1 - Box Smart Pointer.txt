@@ -1,0 +1,46 @@
+Box Smart Pointer
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new box_smart_pointer
+
+    2. Crates
+        use crate::List::{Cons, Nil};
+
+    3. Code
+        use crate::List::{Cons, Nil}; // for recursive example
+
+        fn main()
+        {
+            // use box to store i32 on the heap
+            let b = Box::new(5);
+            println!(" b = {}", b);
+
+            // recursive example
+            
+
+            let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+
+        }
+
+        enum List
+        {
+            Cons(i32, Box<List>),    // only store i32 types
+            Nil,
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - box allows you to store data on the heap rather than the stack
+        - What is stored is a pointer to the value, instead of the value itself. The compiler may know the size of a pointer, but not the size of a recursive value.
+    - recursive types = a type whose size is unknown at compile time
+    - cons (construct) list = a list of paired elements. x is the current value, y is the next value. The last element's y value is represented by "Nil", meaning no next item.

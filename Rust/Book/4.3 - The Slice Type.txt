@@ -1,0 +1,33 @@
+The Slice Type
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new slice
+
+    2. Crates
+        N/A
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - "let <variable> = &s[starting_index..ending_index]" syntax
+        - Ex: let s = String::from("hello world");
+                let hello = &s[0..5]; 
+        - ending_index is the last byte + 1. In the example above 0 = 'h' and 5 = ' ' (space). However, slicing uses this method to represent "hello" (without the space)
+        - can also use [..5] when starting from 0.
+    - &str = string slice data type
+    - String slices = String literals
+    - In other words, always use &str instead of &String data types as it makes the code more general without losing functionality
+        - Instead of passing strings like "funtion(&some_string)", use "function(&some_string[..])" to pass the entire string
+    - The slice syntax on Strings applies to arrays too!

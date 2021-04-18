@@ -1,0 +1,71 @@
+Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new string_to_pig_latin
+
+    2. Crates
+        1. use std::io;
+
+    3. Code
+        use std::io; // used for user input
+
+        /* 
+        vowels list = A, E, I, O, U
+        Consonants list = B, C, D, F, G, H, J, K, L, M, N, P, Q, R, S, T, V, X, Z
+        */
+
+        fn main()
+        {
+            println!("Enter a string to convert to pig latin");
+            let mut answer = String::new();
+                io::stdin().read_line(&mut answer).expect("Failed to read line");   // Get user input
+
+            let mut counter = 0;
+            for letter in answer.chars()    // iterate through the input
+            {
+                // Words that start with a vowel have “hay” added to the end instead 
+                if counter == 0
+                    {
+                        match &letter.to_ascii_uppercase()
+                        {
+                            'A' | 'E' | 'I' | 'O' | 'U' =>
+                            {
+                            println!("{}-hay", answer.trim());
+                            break;   // end it all!!
+                            },
+                            _ => continue,
+                        }
+                    }
+                // he first consonant of each word is moved to the end of the word and “ay” is added
+                // Although W & Y are semi-vowels, I'm going to generically list them as consonants
+                match &letter.to_ascii_uppercase()
+                {
+                    'B' | 'C' | 'D' | 'F' | 'G' | 'H' | 'J' | 'K'| 'L' | 'M' | 'N' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'V' | 'W' | 'X' | 'Y'| 'Z' => 
+                    {
+                        let answer = answer.replacen(letter,"", 1); // old, new replacement for the first match - https://doc.rust-lang.org/std/primitive.str.html#method.replacen
+                        println!("{}-{}ay", &answer.trim(), &letter); // replacen() adds \n. Using trim() to remove it.
+                        break; // stop the loop because the first consonant is found
+                    },
+                    _ => println!("Neither a consonant or vowel were found!"),
+                }
+                
+                counter += 1;
+            }
+        }
+
+
+    4. run
+        $ cargo run
+
+Learned:
+    - can't use if statement in match statement
+    - learned replacen() to replace string by the x number of occurences
+        https://doc.rust-lang.org/std/primitive.str.html#method.replacen

@@ -1,0 +1,33 @@
+Template
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new minigrep
+
+    2. Crates
+        N/A
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Any time you use the collect() function, you must annotate the data type because collect() can be used for any collection type
+    - Split a program into main.rs and lib.rs
+        - main.rs holds the error handling, calls to functions in lib.rs and command line arguments
+        - lib.rs holds the program's logic
+            - This allows the programmer to test the functions in lib.rs as you can't test functions in main.rs
+    - Tests:
+        - test driven development process
+            - write a test to intentionally fail
+            - then make the test pass
+    - eprintln! prints errors to stderr instead of stdout

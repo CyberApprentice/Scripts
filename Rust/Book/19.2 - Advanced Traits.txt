@@ -1,0 +1,26 @@
+Advanced Traits
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new advanced_traits
+
+    2. Crates
+        N/A
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - operator overloading - customize the behavior of standard operators (e.g. +, -, /, etc.)
+    - Fully qualified syntax:
+        <Type as Trait>::function(receiver_if_method, next_arg, ...);

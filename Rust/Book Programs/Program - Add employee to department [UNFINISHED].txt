@@ -1,0 +1,144 @@
+Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new add_employee_to_department
+
+    2. Crates
+        N/A
+
+    3. Code
+        
+
+        use std::io; // used for user input
+        use std::collections::HashMap; // Used for HashMap key-value pairs
+
+        #[allow(unused_variables)]  // ignore unused variable warnings
+        #[allow(unreachable_patterns)]
+
+        fn main()
+        {
+            let departments = vec![String::from("Sales"), String::from("Marketing"), String::from("IT"), 
+                                String::from("HR"), String::from("Finance"), String::from("Research")];     // example departments
+            let employees = vec![String::from("Adams"), String::from("Baker"), String::from("Clark"),
+                                String::from("Davis"), String::from("Evans"), String::from("Frank"),
+                                String::from("Ghosh"), String::from("Hills"), String::from("Irwin"),
+                                String::from("Jones"), String::from("Klein"), String::from("Lopez"),
+                                String::from("Mason"), String::from("Nalty"), String::from("Ochoa"),
+                                String::from("Patel"), String::from("Quinn"), String::from("Reily"),        // example names 
+                                String::from("Smith"), String::from("Trott"), String::from("Usman"),
+                                String::from("Valdo"), String::from("White"), String::from("Xiang"),
+                                String::from("Yakub"), String::from("Zafar"), String::from("Mufasa"),
+                                String::from("Sarabi"), String::from("Simba"), String::from("Nala"),
+                                String::from("Kiara"), String::from("Kovu"), String::from("Timon")];
+            let mut employee_to_department = HashMap::new(); // empty hashmap to fill with key: employee; value: department
+
+            loop
+            {
+                println!("Please select an option below:");
+                println!("[1] Add an employee to a department");
+                println!("[2] View people in a department");                // text interface
+                println!("[3] Remove an employee from a department");
+                println!("[4] Update an employee's department");
+                println!("[5] Quit (or Ctrl+C)");
+
+                let mut answer = String::new();
+                io::stdin().read_line(&mut answer).expect("Failed to read line");   // Get user input
+                let answer: u32 = match answer      // shadows the mutable "guess" variable above as an unsigned 32-bit integer
+                        .trim()     // removed the \n when a user presses the enter key to submit the answer choice
+                        .parse()    // converts the string into number
+                        {
+                            Ok(num) => num,
+                            Err(_) => continue,
+                        };
+                
+
+                match &answer
+                {
+                    1 =>
+                    {
+                        println!("What is the employee name?");
+                        let mut employee_name = String::new();
+                        io::stdin().read_line(&mut employee_name).expect("Failed to read line");   // Get user input
+
+                        println!("What department will this employee belong to?");
+                        let mut employee_department = String::new();
+                        io::stdin().read_line(&mut employee_department).expect("Failed to read line");   // Get user input
+
+                        employee_to_department.insert(employee_name, employee_department);
+                        //employee_to_department.entry(String::from(employee_name)).or_insert(employee_department);
+                        
+                        println!("All done!");
+                    }
+                    2 =>
+                    {
+                        println!("Here is a list of employees not in a department.");
+                        for (key,value) in &employee_to_department
+                        {
+                            println!("Employee Name: {}\nDepartment: {}", key, value); 
+                        }
+                    }
+                    3 =>
+                    {
+                        println!("What is the employee name?");
+                        let mut employee_name = String::new();
+                        io::stdin().read_line(&mut employee_name).expect("Failed to read line");   // Get user input
+
+                        println!("What department will this employee belong to?");
+                        let mut employee_department = String::new();
+                        io::stdin().read_line(&mut employee_department).expect("Failed to read line");   // Get user input
+                        let key_pair = employee_to_department.get(&employee_name);  // store the result as a reference to a String to use to match with employee_department
+                        
+                        match &key_pair
+                        {
+                            &employee_department => 
+                            {
+                                &mut employee_to_department.remove(&mut employee_name);
+                                println!("All done!");
+                            }
+
+                            _ => println!("Employee wasn't present to begin with"),
+                        } 
+                    }
+
+                    4 =>
+                    {
+                        
+                    }
+
+                    5 => println!("Please come again. Have a great day!"),
+
+                    _ => println!("Invalid choice!"),
+                } // end match
+            } //end loop
+        } // end main
+        #[allow(dead_code)]
+        fn employees_with_no_department<'a>(employees: &'a Vec<String>, 
+                                        employee_to_department: &'a HashMap<&'a String, &'a String>) -> Vec<&'a String>
+                                        // the 'a is in reference to "lifetimes", which I haven't covered yet in the chapters, but is required for my implementation to fix the error.
+        {
+            let mut no_department: Vec<&String> = Vec::new();        // initially, all employees will go in here, but as employees are added this will change. It is defined at the top because it is used multiple times (option 1 & option 2)
+
+            // fill the vector with employees that do not belong to a department
+            for name in employees
+            {
+                if employee_to_department.contains_key(&name)
+                {
+                    no_department.push(name);
+                }
+            }
+            no_department       // return the vector
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - 

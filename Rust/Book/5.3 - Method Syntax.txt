@@ -1,0 +1,110 @@
+Method Syntax
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new <name>
+
+    2. Crates
+        N/A
+
+    3. Code
+        #[derive(Debug)]    // used to print structs
+        struct Rectangle
+        {
+            width: u32,
+            height: u32,
+        }
+
+        impl Rectangle
+        {
+            fn area(&self) -> u32   // add & to not take ownership
+            {                       // "self" is the instance of the struct the method is being called on
+                self.width * self.height
+            }
+
+            // multiple parameters example
+            fn can_hold(&self, other: &Rectangle) -> bool       // &self = rect1. Other (a name we can define)= rect2 or rect3 
+            {
+                self.width > other.width && self.height > other.height
+            }   
+
+            // associated function - creates a struct instance
+            fn square(size: u32) -> Rectangle
+            {
+                Rectangle
+                {
+                    width: size,
+                    height: size,
+                }   // don't need semi colonn
+            }
+        }
+
+        fn main()
+        {
+            let rect1 = Rectangle       // The instance of the struct is passed as &self to the method
+            {
+                width: 30,
+                height: 50,
+            };
+
+            let rect2 = Rectangle
+            {
+                width: 10,
+                height: 40,
+            };
+            
+            let rect3 = Rectangle
+            {
+                width: 60,
+                height: 45,
+            };
+
+            println!("The area of the rectangle is {} square pixels.", rect1.area());
+
+            // multiple parameters example
+            println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+            println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+
+            // associated function example
+            let _sq = Rectangle::square(3);
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Methods are functions for structs
+        - It is spotted by being seen within a Struct and contain the "self" parameter 
+        - The method is defining within the context of the struct, called a "impl" (implementation) block
+        - Ex: impl <struct>
+                {
+                    fn <function> (&self) -> u32
+                    {
+                        ...
+                    }
+                }
+    - The function uses dot-notation to refer to the structs values
+        - Ex: self.width = rectangle.width
+    - The benefit of using methods is for organization. Everything that can be done with the struct's instance is in a impl block
+    - "self" = the instance of the struct the method is being called on.
+        - The instance of struct that sets values is passed as "self" to the method
+    - automatic referencing and dereferencing
+        - Used when calling methods
+            - and among other reasons not discussed yet
+        - Rust automatilcally adds &, &mut or * (dereference), so the object matches the signature of "self" parameter
+            - Ex: if "&self" is used, then the object should use &object, but because of this feature, you can do "object".
+            - It makes the code look cleaner
+    - Associated functions
+        - Don't take self as a parameter 
+        - They are within the impl block, but not considered methods because they don't use self parameters
+        - They return NEW instances for the struct 
+            - Unlike methods that use an instance of a struct
+        - let <instance> = <Object>::<function>(<parameter>) is the syntax to call the associated function to create a new instance and store it in an instance
+    -  

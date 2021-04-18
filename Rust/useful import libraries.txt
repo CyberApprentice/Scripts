@@ -1,0 +1,9 @@
+Useful libraries:
+
+std::io; = input from keyboard
+use rand::Rnd; = random number generator
+use std::cmp::Ordering; = Comparing (greater than, less than, & equal)
+use std::fs; = handle files (e.g. read from file).
+use std::env; = add cli parameters (e.g. cargo run parameter1 parameter2 ...)
+use std::process; = exit the program without all the CLI gibberish
+use std::thread; use std::time::Duration;   // used to cause programs to wait (e.g. thread::sleep(Duration::from_secs(2));)

@@ -1,0 +1,75 @@
+Problem: Generate the nth Fibonacci number
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new fibonacci_generator
+
+    2. Crates
+        use std::io;
+
+    3. Code
+        use std::io;
+
+        fn main()
+        {
+            loop
+            {
+                println!("Please enter a fibonacci number to generate:\t");
+
+                let mut number = String::new(); // variable to store user input
+
+                // user input
+                io::stdin()
+                    .read_line(&mut number)
+                    .expect("Failed to read line");
+                
+                // convert String to Integer for calculation
+                let number: u128 = match number
+                                        .trim()
+                                        .parse()
+                                    {
+                                        Ok(num) => num,
+                                        Err(_) => continue,
+                                    };
+                
+                println!("The desired to calculate the fibonacci of {}.", number);                    
+                
+                // calculations
+                if number == 0
+                {
+                    println!("Output: 0");
+                }
+                else
+                {   
+                    // This portion was stolen. Wasn't sure if knowing the formula was required or not, but I didn't know it so looked it up.
+                    let mut index: u128 = 0;
+                    let mut previous_fib: u128 = 0;
+                    let mut current_fib: u128 = 1;
+                    let mut new_fid: u128 = 0;
+
+                    while index < number -1
+                    {
+                        new_fid = previous_fib + current_fib;
+                        previous_fib = current_fib;
+                        current_fib = new_fid;
+
+                        index+=1;   // increment by 1
+                    }
+
+                    println!("Output: {}", new_fid);
+                }
+            }
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - nth Fib formula

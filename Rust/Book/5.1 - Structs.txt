@@ -1,0 +1,132 @@
+Structs
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new structs
+
+    2. Crates
+        N/A
+
+    3. Code
+        // Made it global for use in functions outside of Main()
+        // struct example for a user and their associated attributes
+        struct User
+        {
+            username: String,           // Using "String" types because we haven't learned how to fix ownership issues with using &str, yet....
+            email: String,
+            sign_in_count: u64,
+            active: bool,
+        }   // does not end with semicolon
+
+        fn main()
+        {
+            
+
+            // from our struct template, we will define our first user
+            let user1 = User
+            {   
+                // The order of the struct's fields do not have to match!
+                email: String::from("some@example.com"),
+                username: String::from("someuser"),
+                active:true,
+                sign_in_count: 1,
+            };  // end with semi colon
+
+            // mutable example 
+            let mut user2 = User
+            {
+                email: String::from("example@example.com"),
+                username: String::from("user2"),
+                active: true,
+                sign_in_count: 1,
+            };
+
+            // dot-notation example to change a field's value
+            user2.email = String::from("anotheremail@example.com"); 
+
+            // Dot-nottation example when creating instances
+            let user3 = User
+            {
+                email: String::from("again@example.com"),
+                username: String::from("name"),
+                active: user1.active,
+                sign_in_count: user1.sign_in_count,
+            };
+
+            // Struct Update Syntax equivalent of User3
+            let user4 = User
+            {
+                email: String::from("user4@example.com"),
+                username: String::from("user4"),
+                ..user1     // no semi-colon
+                            // .. = struct update syntax to copy the remaining unspecified field's with the values from user1.
+            };
+
+            build_user(user3.email, user3.username);        // used to rid of warnings
+            build_user_ver2(user4.email, user4.username);   // used to rid of warnings
+
+            // Tuple Structs
+            struct Color (i32, i32, i32);
+            let black = Color(0,0,0);
+            
+
+        }
+
+
+        // struct function example. Email and Username are passed an we are returning a custom data type, User. The colons are defining the value type.
+        fn build_user(email: String, username: String) -> User 
+        {
+            User
+            {
+                email: email,
+                username: username,
+                active: true,
+                sign_in_count: 1,
+            } // does not end with semi colon
+
+        }   // does not end with semicolon
+
+        // Same function as above, but with the field init shorthand syntax
+        fn build_user_ver2(email: String, username: String) -> User
+        {
+            User
+            {
+                email,      // field init shorthand syntax
+                username,   // assumed the function parameter name matches and implicitly implies that as the value
+                active: true,
+                sign_in_count: 1,
+            }
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - just like objects in OOP
+        - custom data sype to group related values
+    - Format is in key:value pairs
+    - After defining a struct, when instantiating it, the key:value fields do not have to match in order
+    - Dot-notation is used to reference specific key:values
+        - Ex: User1.email
+    - The entire struct must be mutable; a struct cannot be part mutable (e.g. only one field) and part immutable
+    - Field init shorthand syntax = ommit value name when the function parameter name and the struct's field name match
+        - Ex: Within a struct, instead of writing "email: email", you can write, "email". 
+    - Struct Update Syntax = duplicating an instance
+        - used through the "..<instance name>" syntax
+            - Ex: "..user1"
+                - Copy the remaining missing field values with the values from user1
+        - The original method would be to use dot-notation to set the value pair. The update syntax decreases the amount of code
+    - Tuple Structs
+        - Adds the benefits of Structs to tuples
+            - naming, dot-notation, etc.
+    - Unit-Like Structs
+        - don't have any fields
+        - Used when you don't have any data you want to store yet
+

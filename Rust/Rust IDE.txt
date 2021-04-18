@@ -1,0 +1,8 @@
+Rust IDE
+
+Visual Studio Code
+    Extensions (marketplace):
+        rust-lang.rust - Rust language support
+        serayuzgur.crates - latest version crate checker
+        CodeLLDB - used to use the vsc debugger
+

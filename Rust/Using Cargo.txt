@@ -1,0 +1,24 @@
+Using Cargo
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create a Cargo Workspace
+        $ cargo new <name>
+    2. Run the program local to the Workspace
+        $ cargo run     # builds + runs
+    3. Check for errors (faster than build)
+        $ cargo Check
+    4. Build for sharing
+        $ cargo build --release
+
+Learned:
+    - Cargo.toml = version and crates (dependencies)
+    - ./target/debug/* = executable is stored (regular version)
+    - ./target/release/* = executable is stored (production version)
+    - The difference between release and the regular version is the release version is built with optimizations to make it faster to execute but longer to compile

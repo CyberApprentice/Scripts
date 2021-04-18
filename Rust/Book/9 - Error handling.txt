@@ -1,0 +1,133 @@
+Template
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new error_handling
+
+    2. Crates
+        use std::fs::File;  // used to open files
+        use std::io::ErrorKind; // used to match different causes of errors
+        use std::io;
+        use std::io::Read; // needed for read_to_string()
+        use std::fs;
+
+    3. Code
+        use std::fs::File;  // used to open files
+        use std::io::ErrorKind; // used to match different causes of errors
+        use std::io;
+        use std::io::Read; // needed for read_to_string()
+        use std::fs;
+
+        #[allow(unused_variables)]
+        #[allow(dead_code)]
+        fn main()
+        {  
+            // Example 1 - calling panic!
+        //    panic!("CRASH!");   // calls panic! with the error message string
+
+            // Example 2 - Using Result variant to handle working case and failing case
+            let f = File::open("hello.txt");    // open file named, "hello.txt"
+
+            let f = match f
+            {
+                Ok(file) => file, // succeeds
+                Err(error) => panic!("Problem opening the file: {:?}", error),  // fails i.e. crashes i.e. panics
+            };
+
+            // Example 3 - Match different causes of errors
+            let x = File::open("hello.txt");
+            let x = match x 
+            {
+                Ok(file) => file, //if it succeeds, return file
+                Err(error) => match error.kind()    // setup an inner match expression for different error causes
+                {
+                    ErrorKind::NotFound => match File::create("hello.txt")    // if the file is not found
+                    {
+                        Ok(fc) => fc,   // if creating the file suceeds, return it
+                        Err(e) => panic!("Problem creating the file: {:?}", e), // panics if it fails
+                    },
+
+                    other_error => panic!("Problem opening the file: {:?}", other_error)    // match all other occurences    
+                },  // close inner match
+            }; //cloose outter match
+
+            //Example 4 - using unwrap() instead of match. unwrap returns the file upon success, or it'll call panic! upon failure. Less code!
+
+            let f = File::open("hello.txt").unwrap();
+
+            // Example 5 - using expected() - similar to unwrap(), but allows a custom error message!
+
+            let f = File::open("hello.txt").expect("Failed to open hello.txt");
+
+            // Example 6 - propagating errors example
+
+            fn read_username_from_file() -> Result<String, io::Error>   // return an error
+            {
+                let f = File::open("hello.txt");
+
+                let mut f = match f
+                {
+                    Ok(file) => file,   // return username within the file upon success
+                    Err(e) => return Err(e),    // return error info
+                                                // need match case to return the error
+                };
+
+                let mut s = String::new();
+
+                match f.read_to_string(&mut s)  // read_to_string stores the content of f, the username, into the string s
+                                                // we need a match case because f could be an error, or the username we're looking for. We use a match to handle both cases
+                {
+                    Ok(_) => Ok(s), //if it returns a username, pass it
+                    Err(e) => Err(e),   // if it fails, return the error
+                                        // "return Err(e)" is not needed because it is the last expression in the function
+                }
+                
+            }
+
+            // Example 7 - using the ? operator to make propagating errors easier and shorter
+            // this code below is the same as the code above
+            fn read_username_from_file_v2() -> Result<String, io::Error>
+            {
+                let mut f = File::open("hello.txt")?;   // the ? = the match casses we followed up with above. Return the valid content, or return the error
+                let mut s = String::new();
+                f.read_to_string(&mut s)?; 
+                Ok(s)   // return the username
+            }
+
+            // Example 7.1 - make it even shorter!
+
+            fn read_username_from_file_v3() -> Result<String, io::Error>
+            {
+                let mut s = String::new();
+                
+                File::open("hello.txt")?.read_to_string(&mut s)?;
+
+                Ok(s)
+            }
+
+            // Example 7.2 - the famous one liner.. using the fs::read_to_string function that handles it all!
+            fn read_username_from_file_v4() -> Result<String, io::Error>
+            {
+                fs::read_to_string("hello.txt")     // returns the String with the contents from the file
+            }
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - When the error says "src/main.rs:2:5" = 2nd line, 5th character
+    - Backtrace = list of functions called until the panic! was called
+    - call backtrace via "RUST_BACKTRACE=1 cargo run" or "RUST_BACKTRACE=full" cargo run
+    - Backtrace cannot be used with --release
+    - When using backtrace, look for "at src/main.rs:X" to find the link that caused the panic
+    - propagating errors - returning an error to the code that called the function 
+        - make easier by using the ? operator
+            - The ? operator can only be used with functions that returns "Result" or "Option" types

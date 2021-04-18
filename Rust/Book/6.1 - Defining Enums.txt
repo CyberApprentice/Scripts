@@ -1,0 +1,111 @@
+Enums
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new enum_noob
+
+    2. Crates
+        N/A
+
+    3. Code
+        fn main()
+        {   
+            // enum definition
+            enum IpAddrKind
+            {
+                V4,
+                V6,
+            }
+
+            //enum instance
+            let _four = IpAddrKind::V4;
+            let _six = IpAddrKind::V6;
+
+            // Passing enum to a function
+            fn _route(_ip_kind: IpAddrKind) {};
+
+            
+            // What a struct with values would look like
+            struct IpAddr
+            {
+                _kind: IpAddrKind,
+                _address: String,
+            }
+
+            let _home = IpAddr       // struct instance
+            {
+                _kind: IpAddrKind::V4,
+                _address: String::from("127.0.0.1"),
+            };
+
+            let _loopback = IpAddr
+            {
+                _kind: IpAddrKind::V6,
+                _address: String::from("::1"),
+            };
+
+            // In comparison with above, how enum instances with values looks like
+            enum IpAddr3
+            {
+                V4(String),
+                V6(String),
+            }
+            
+            let _home = IpAddr3::V4(String::from("127.0.0.1"));
+
+            let _loopback = IpAddr3::V6(String::from("::1"));
+            
+                // As one can see, it is more compact
+
+            // Example with multiple parameters
+            enum IpAddr2
+            {
+                V4(u8, u8, u8, u8),
+            }
+
+            let _home = IpAddr2::V4(127, 0, 0, 1);
+
+            // Display different data types in enum parameters
+            enum Message
+            {
+                _Quit,                       // no data type
+                _Move { x: i32, y: i32 },    // the brackets mean it is a struct data type
+                Write(String),
+                _ChangeColor (i32, i32, i32),
+            }
+
+            // Struct equivalent to above
+            struct _QuitMessage; // called a "unit struct"
+            struct _MoveMessage { x: i32, y: i32}
+            struct _WriteMessage (String);
+            struct _ChangeColourMessage (i32, i32, i32); 
+
+            // Implementation block
+            impl Message
+            {
+                fn call (&self) {} // do something example
+            }
+
+            let m = Message::Write(String::from("Hello"));
+            m.call();
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Rust does not have null, but has a enum called "Option" that checks if a value is present or absent   
+    - <T> = = generic type = one piece of data of any type
+    - Enums cannot be shadowed
+    - Both enums and structs can have methods
+        - Both can be defined within an implementation block
+    - Structs vs. Enums
+        - Structs are equivalent to an "AND" combination of the individual fields, while enums are an "OR" combinator
+        - Enums can use match, structs cannot

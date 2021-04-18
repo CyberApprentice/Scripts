@@ -1,0 +1,109 @@
+Given a list of integers, use a vector and return the mean (the average value), median (when sorted, the value in the middle position), and mode (the value that occurs most often; a hash map will be helpful here) of the list.
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new mean_median_mode
+
+    2. Crates
+        use std::collections::HashMap;
+
+    3. Code
+        /* Given a list of integers, use a vector and return the mean (the average value), 
+        median (when sorted, the value in the middle position), and mode (the value that occurs most often; 
+            a hash map will be helpful here) of the list.
+            
+        Formulas:
+            Mean = sum of terms / number of terms
+
+            Median = middle number
+
+            Mode = Most repeated number
+
+            */
+        use std::collections::HashMap;  // import hashmaps
+
+
+        #[allow(unused_parens)] // ignore warnings
+        fn main()
+        {
+            // Variables
+            let mut list_of_ints = vec![65, 12, 9, 66, 74, 32, 28, 4, 4, 251, 1]; // vector containing i32 ints
+                                                                                // It's mutable so we can sort it
+            let mut sum = 0; // define a variable to calculate the sum of all the integers in the vector 
+            let mut map = HashMap::new();
+
+            list_of_ints.sort();        // (1) Sort the vector from least to greatest.
+            
+            println!("The following values will be used to calculate the mean, median, and mode: ");
+
+            // Calculate Mean
+            for index in &list_of_ints
+            {
+                print!("{} ", index);  // print each element on one line
+                // Calculate the sum
+                sum += index;   // add each element to sum
+
+                // sneak in stuff for mode so we don't have to reloop later
+                let count = map.entry(index).or_insert(0);
+                *count += 1;
+            }
+            
+            let mean = sum / &list_of_ints.len();   // (2) Calculate the mean.
+            println!("\nThe mean is: {}", mean);
+
+            // Calculate Median
+            if(&list_of_ints.len() % 2 == 1)
+            {
+                println!("The median is: {}", &list_of_ints[&list_of_ints.len() / 2]); // splits down the middle
+            }
+            else
+            {
+                let median =  
+                            ( // start divison      
+                                // find the two middle numbers        
+                                (&list_of_ints[(&list_of_ints.len() / 2) - 1])  // middle #1
+                                +                                               //    +
+                                (&list_of_ints[(&list_of_ints.len() / 2)])      // middle #2
+                                                                                // ----------
+                            ) /2;   // divide the two middle numbers             //    2
+                println!("The median is: {}", median);
+            }
+
+
+            // Calculate Mode
+                // All the word is done in the 'mean' loop, so we just have to print it here
+            let mut mode = 0;
+            let mut frequency = 0;  // to store the highest value; most occurences
+            for (key, value) in &map
+            {
+                if (frequency < *value)
+                {
+                    frequency = *value;
+                    mode = **key;       // haven't learned what the * and i especially don't know what ** is
+                }
+                
+            }
+
+            println!("The mode is: {}", mode);
+            
+        }
+
+
+
+
+        /* Foot Notes */
+        // (1) https://doc.rust-lang.org/std/primitive.slice.html#method.sort
+        // (2) https://doc.rust-lang.org/std/vec/struct.Vec.html#method.len
+
+    4. run
+        $ cargo run
+
+Learned:
+    - When shadowing variables, you are reliquishing the scope of the previous variable.

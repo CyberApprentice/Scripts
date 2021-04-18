@@ -1,0 +1,123 @@
+Guessing game
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new guessing_game
+    
+    2. Crates
+        rand = "0.7.3"
+
+    3. Code
+        use std::io;
+        use std::cmp::Ordering;
+        use rand::Rng;
+
+        fn main() 
+        {
+            println!("Guess the number!");
+
+            let secret_number = rand::thread_rng()
+                                    .gen_range(1, 101); // between 1 and 100
+                                    
+            // println!("The secret number is: {}", secret_number);     // This is the correct answer
+
+            loop //creates an infinite loop
+            {
+                println!("Please input your guess.");
+
+                let mut guess = String::new();  // mutable variable
+                                                // We are defining guess as an empty string type. Think, String x = "";
+                                                // mutable variables are required when being used for user input
+
+                io::stdin()
+                    .read_line(&mut guess)
+                    .expect("Failed to read line");
+                
+                let guess: u32 = match guess      // shadows the mutable "guess" variable above as an unsigned 32-bit integer
+                    .trim()     // removed the \n when a user presses the enter key to submit the answer choice
+                    .parse()    // converts the string into number
+                    {
+                        Ok(num) => num,
+                        Err(_) => continue,
+
+                        /*
+                            This block works because it is a match function. When the match succeeds, it returns "Ok" and the associated number. 
+                            When it fails, it returns "Err". The "_" represents a catch-all value for any input that resulted in the error.
+                        */
+                    };
+
+                    //.expect("Please type a number!");   // crash if the value entered fails to convert the string to a number for comparison
+                    // removed .expect because if the user of the game will have to start over. Instead, the program has been converted to allow the user to continue dispite invalid input.
+                    
+                
+                println!("You guessed: {}", guess);
+
+                match guess.cmp(&secret_number) 
+                {
+                    Ordering::Less => println!("Too small!"),
+                    Ordering::Greater => println!("Too big!"),
+                    Ordering::Equal => 
+                    {
+                        println!("You win!");
+                        break;
+                    }
+                }
+            }   
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Import libraries through the "use" command
+        - imports end with semi colons
+    - Define a variable.
+        - Ex: let x = 5;
+        - Variables are immutable by default
+        - Variables used for user input MUST be mutable (&mut)
+    - comments = //
+    - Functions
+        -  .read_line = accepts user input and processes it as a String type. Variables must be mutable.
+            - Returns a value (i.e. io::Result)
+        - .expect
+            - Error handling.
+            - This will intentionally crash the program when a problem occurs.
+            - io::Result returns either the value or an error. Defining an error returns the defined message.
+    - Reference (&)
+        - immutable by default
+        - A shortcut/link of a memory location for faster access
+            - i.e. a reference marker
+    - Readability
+        - Break up methods/functions on new lines
+            - Ex: io::stdin().read_line(&mut guess).expect("Failed to read line");
+                = io::stdin()
+                    .read_line(&mut guess)
+                    .expect("Failed to read line");
+    - Placeholders
+        - When including variables in printed text, "{}" are used.
+            Ex: println!("x = {} and y = {}", x, y);
+    - Cargo.lock file
+        - Stores crate versions for reuse when rebuilding
+    - "cargo update" command
+        - Updates to the latest crate version within its second digit.
+            Ex: Current version = 0.5.5
+                Updated versions = 0.5.6, 0.6.0
+                $ cargo update
+                New version = 0.5.6
+        - Updating to 0.6.0 will be required manually
+        - Instead of using crate, the VSC extension (serayuzgur.crates) depicts the latest version, but you will still have to manually change the version number
+    - cargo doc --open
+        - builds a documentation page of ONLY the libraries in use and opens them in a browser
+    - i32
+        - Rust numbers default to i32 (32-bit number)
+    - Shadowing
+        - use the same varibale name as another when coverting between types (e.g. string to int)
+            - instead of doing variable_int and variable_string, we shadow!
+    - Loop

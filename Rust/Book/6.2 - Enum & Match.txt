@@ -1,0 +1,128 @@
+Enum & Match
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new enum_match
+
+    2. Crates
+        N/A
+
+    3. Code
+        fn main()
+        {
+            
+            enum _Coin
+            {
+                Penny,
+                Nickel,         // It can be a Penny, Nickel, Dime, OR Quarter
+                Dime,
+                Quarter,
+            }
+
+            fn _value_in_cents (coin: _Coin) -> u8    // a function that is passed the parameter of type Coin
+            {
+                match coin      // match expression on the parameter passed to the function 
+                {
+                    _Coin::Penny => 1,
+                    _Coin::Nickel => 5,          // if it is a Penny, Nickel, Dime, or Quarter, return the value
+                    _Coin::Dime => 10,           // if matched on the left side of => execute the code on the right side
+                    _Coin::Quarter => 25,
+
+                    /* Curly bracket example
+                    Coin::Penny => 
+                    {
+                        println!("Lucky penny!");
+                        1
+                    }*/
+                }
+            }
+            
+
+            #[derive(Debug)]    // so we can print it
+
+            // We are going to add a unique variant to quarters. Each quarter has a different design based off the state.
+            enum UsState
+            {
+                _Alabama,
+                Alaska,
+            }
+            
+            enum Coin2
+            {
+                _Penny,
+                _Nickel,
+                _Dime,
+                Quarter(UsState),
+            }
+
+            fn value_in_cents_state(coin: Coin2) -> u8
+            {
+                match coin
+                {
+                    Coin2::_Penny => 1,
+                    Coin2::_Nickel => 5,
+                    Coin2::_Dime => 10,
+                    Coin2::Quarter(state) =>
+                    {
+                        println!("State quarter from {:?}!", state);
+                        25
+                    }
+                }
+            }
+
+            value_in_cents_state(Coin2::Quarter(UsState::Alaska));
+
+            // Using match and Option<T>
+            // Takes Option<i32> and adds 1 if value is present or returns none
+            fn plus_one(x: Option<i32>) -> Option<i32>      // pass the value Option<i32>, add one, and return that value
+            {
+                match x
+                {
+                    None => None,       // if there is no value present, return None
+                                        // Without the None case, the code will error
+                    Some(i) => Some(i + 1),     // if a value (i) is present, add one and return that value
+                                                // i will bind to any value passed to it. So for Some(5), i will bind to 5.
+                }                               // For clarity, x is a Option<i32>, so it will bind to Some(5), not 5. This will lead to a mismatch type
+            }
+
+            let five = Some(5);         // instantiate an Option variable
+            let _six = plus_one(five);   // return 6
+            let _none = plus_one(None);  // return nothing
+            // let test = plus_one(5);  // mismatch type example
+            
+            // _ placeholder
+            let some_u8_value = 0u8;
+            match some_u8_value
+            {
+                1 => println!("one"),       // if it matches 1, print "one"
+                3 => println!("three"),
+                5 => println!("five"),
+                7 => println!("seven"),
+                _ => (),                    // if it matches any other value from 0 to 255, do "()" which is a unit value, so nothing happens.
+            }
+
+
+        }
+
+
+
+    4. run
+        $ cargo run
+
+Learned:
+    - the match expression executes the first case that matches
+    - match vs. if statements
+        - if statements return a boolean (if x > 1)
+        - match statements return any type
+    - If you want to execute multiple lines of code on the right side of => in a match block, use curly brackets
+    - All Option<> blocks must handle None cases!
+    - '_' is the catch-all value to match any value not explicitly mentioned
+        - "_ => ()," = if it matches any value, do nothing
+            - () is a unit value 

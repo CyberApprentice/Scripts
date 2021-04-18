@@ -1,0 +1,104 @@
+lifetimes
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new lifetimes
+
+    2. Crates
+        
+
+    3. Code
+        fn main()
+        {
+            // won't compile because lifetime error 
+            /*
+            fn longest(x: &str, y: &str) -> &str
+            {
+                if x.len() > y.len() 
+                {
+                    x
+                }
+                else
+                {
+                    y
+                }
+            }*/
+
+            // added generic lifetime specifiers
+            fn longest<'a>(x: &'a str, y: &'a str) -> &'a str
+            // both parameters, x & y, and the returned string slice will live as long as lifetime 'a
+            {
+                if x.len() > y.len()
+                {
+                    x
+                }
+                else
+                {
+                    y
+                }
+            }
+
+            // generic lifetimes with structs example
+            struct ImportantExcerpt<'a>
+            {
+                part: &'a str,
+            }
+
+            let novel  = String::from("Call me blah. some years ago..");
+            let first_sentence = novel.split('.').next().expect("Could not find a '.'");
+            let i = ImportantExcerpt
+            {
+                part: first_sentence,
+            };
+
+            let s: &'static str = "I have a static lifetime";   // static lifetime example that lives for the entire program
+            let s = "I have a static lifetime too!";    // same as above, just less verbose
+
+            // An example that implemented generics, trait bounds, and lifetimes!
+            use std::fmt::Display;
+
+            fn longest_with_an_announcement<'a, T> 
+            (
+                x: &'a str,
+                y: &'a str,
+                ann: T,     // // Only for types that implement the Display trait
+            ) -> &'a str
+            where
+                T: Display, // Only for types that implement the Display trait
+            {
+                println!("Announcement! {}", ann);
+                if x.len() > y.len()
+                {
+                    x
+                }
+                else
+                {
+                    y
+                }
+            }
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - lifetime is the scope for which a reference is valid
+        - implemented to prevent dangling references (i.e. references that can no longer be referenced, so something else is referenced)
+    - generic lifetime parameters are used to describe the relationships of lifetimes of multiple references passed to a function without affecting the lifetimes
+        - Examples:
+            - &i32              // reference
+            - &'a i32           // reference with explicit lifetime
+            - &'a mut i32       // mutable reference with explicit lifetime
+    - Syntax is as above, immediately after the reference (&) annotation, starts with ', and followed up with a lowercase letter
+    - if a function calls for 2 parameters, and the programmer gives them the same lifetime letter, that means the lifetime of both have the same lifespan
+    - lifetime elision rules - implicit cases when lifetime annotations are automatically infered by the compiler
+        - e.g. when only one parameter is used
+    - staic lifetimes live the duration of the programmer
+        - e.g. string literals

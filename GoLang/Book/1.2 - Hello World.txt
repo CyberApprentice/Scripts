@@ -1,0 +1,37 @@
+1.1 - Hello World
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+    IDE: Visual Studio Code
+
+Steps:
+    1. Code
+        package main    // required for main soure files
+        import "fmt"    // prints formatted output and scanning input
+
+        func main() {
+            fmt.Println("Hello, World")     // import used
+        }
+
+
+    2. Compile
+        $ go build helloworld.go
+
+    3. Run the file
+        Method 1 (without compiling):
+            $ go run helloworld.go
+        Method 2 (after compiling/building):
+            $ ./helloworld
+
+
+Learned:
+    - All source files require a "package" declaration
+    - the "main" package defines an execuitable and not a library.
+    - Functions/methods begin with "func"
+    - Opening brace ('{') cannot standalone 
+    - Doesn't have to end with semi-colon unless they are one-liners
+    - run "gofmt <file>.go" to check the formatting

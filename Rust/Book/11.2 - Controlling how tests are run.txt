@@ -1,0 +1,34 @@
+11.2 - Controlling how tests are run
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        N/A
+
+    2. Crates
+        N/A
+
+    3. Code
+        N/A
+
+    4. run
+        $ cargo run
+
+Learned:
+    - "cargo test -- --show-output" to show output of functions 
+        - Ex: println!
+    - "cargo test <function name>" to only run a test on that name
+        - If multiple functions have the same name, and you only use the prefix, all of those tests can run as well
+            - Ex: fn add_one(), fn add_two(), fn sub_three()
+                    cargo test add
+                - This will run add_one() and add_two() and filter out (not run) sub_three()
+            - tests that do not match the function will be labeled as "filtered out"
+    - Exclude certain tests (functions) by adding #[ignore] under #[test]
+        - Tests excluded will be labeled as "ignored"
+        - to run only the ignored tests do, "cargo test -- --ignored"

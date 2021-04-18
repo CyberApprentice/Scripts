@@ -1,0 +1,123 @@
+Generic data types
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new generics
+
+    2. Crates
+        N/A
+
+    3. Code
+        #[allow(unused_variables)]
+        #[allow(dead_code)]
+        fn main()
+        {
+            // Example 1 - using generics for common implementation
+            struct Point<T>     // we must define a generic name, commonly called 'T', but can be anything. It is defined within <>
+                                // the struct Point is a generic over type 'T'
+            {
+                x: T, // x is a variant that holds a value of type 'T'
+                y: T, // y is a variant that holds a value of type 'T'
+            }
+
+            let integer = Point { x: 5, y: 10}; // for data type - i32
+            let float = Point {x: 1.0, y: 4.0}; // of data type - float64
+            //let wont_work = Point{x:5, y:4.0}; // won't work because they have to be of the same datatype!
+
+            // Example 2 - adding more generic type parameters
+            struct Point2<T, U> // The struct, Point2, is a generic over 2 types, 'T' & 'U'
+            {
+                x: T, // x is a variant that holds a value of type 'T'
+                y: U, // y is a variant that holds a value of type 'U'
+            }
+
+            let both_integer = Point2 {x: 5, y: 10};        // even though the variable type parameters are different, it is the case for varying data types. W
+            let both_float = Point2 {x: 1.0, y: 4.0}; 
+            let integer_and_float = Point2 {x: 5, y:4.0};   // now it works!
+
+            // Example 3 - enum examples that use generics.
+            enum Option<T> // enum Option is a generic over type T
+            {
+                Some(T),    // Some is a variant that holds one value, T
+                None,       // None is a variant that doesn't any value
+            }
+
+            enum Result<T, E>   // The enum Result is a generic over 2 types, T & E 
+            {
+                Ok(T),  // Ok is a variant that holds a value of type T
+                Err(E), // Err is a variant that holds a value of type E
+            }
+
+            // Example 4 - methods (impl) on structs & enums
+            struct Point3<T>
+            {
+                x: T,
+                y: T,
+            }
+
+            impl<T> Point3<T>   // syntax is "impl (struct)"
+                                // We add <T> to impl so that the compiler knows "Point3<T>" is a generic type 
+            {
+                fn x(&self) -> &T   // return x
+                {
+                    &self.x
+                }
+                fn y(&self) -> &T   // return y
+                {
+                    &self.y
+                }
+            }
+
+            let p = Point3{x: 5, y:10}; // instantiate p
+            println!("p.x = {}", p.x());    // call the method x
+            println!("p.y = {}", p.y());    // call the method y
+
+            // Example 5 - methods with multiple generic types
+            struct Point5<T,U>
+            {
+                x: T,
+                y: U, 
+            } 
+
+            impl<T, U> Point5<T,U>
+            {
+                fn mixup<V,W> (self, other: Point5<V,W>) -> Point5<T,W>
+                // self = p1; other = p2
+                {
+                    Point5
+                    {
+                        x: self.x, // return p1.x
+                        y: other.y, // return p2.y
+                    }
+                }
+            }
+
+            let p1 = Point5{x:5, y: 10.4};  
+            let p2 = Point5{x:"Hello", y:'c'};
+            let p3 = p1.mixup(p2);
+            println!("p3.x = {}, p3.y = {}", p3.x, p3.y);   // returns 5 & c
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    -  generics - abstracts for other types
+        - Examples: Option<T>, Vec<T>, HashMap<K, V>, Result<T, E>
+    -  Used to reduce duplicate code.
+        - Example: finding the largest value of a number vs. a character would require two different data types, often calling for 2 separate functions. However, with generic types, only a single function is required.
+    - When instantiating variables, they must be of the same type when only one parameter is allowed.
+        - You'll need x number parameters for the number of mixed data types
+            - If you're passing a float and i32 data type, then you'll need 2 different parameter types
+        - You can use as many generic type parameters as you want!
+    - Concrete types are just 1 data type, i32, char, or custom objects.
+    - Using generics is not slower than concrete values because Rust compiles using monomorphization
+        - monomorphization - the compiler detects the specific type, and replaces the generic types with it. 
+            - Ex: pass i32 to an Option<T>, it'll be classified as Option_i32.

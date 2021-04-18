@@ -1,0 +1,141 @@
+Problem: Print the lyrics to the Christmas carol “The Twelve Days of Christmas,” taking advantage of the repetition in the song.
+
+Problem: Generate the nth Fibonacci number
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new the_12_days_of_christmas
+
+    2. Crates
+        N/A
+
+    3. Code
+        /* Lyrics:
+
+        On the first day of Christmas my true love gave to me
+        A partridge in a pear tree
+
+        On the second day of Christmas my true love gave to me
+        Two turtle doves and a partridge in a pear tree
+
+        On the third day of Christmas my true love gave to me
+        Three French hens, two turtle doves and a partridge in a pear tree
+
+        On the fourth day of Christmas my true love gave to me
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the fifth day of Christmas my true love gave to me
+        Five gold rings, four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the sixth day of Christmas my true love gave to me
+        Six geese a laying, five gold rings
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the seventh day of Christmas my true love gave to me
+        Seven swans a swimming, six geese a laying, five gold rings
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the eighth day of Christmas my true love gave to me
+        Eight maids a milking, seven swans a swimming
+        Six geese a laying, five gold rings
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the ninth day of Christmas
+        Nine ladies dancing, eight maids a milking
+        Seven swans a swimming, six geese a laying, five gold rings
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the tenth day of Christmas my true love gave to me
+        Ten lords a leaping, nine ladies dancing, eight maids a milking
+        Seven swans a swimming, six geese a laying, five gold rings
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the eleventh day of Christmas my true love gave to me
+        Eleven pipers piping, ten lords a leaping
+        Nine ladies dancing, eight maids a milking
+        Seven swans a swimming, six geese a laying, five gold rings
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        On the twelfth day of Christmas my true love gave to me
+        Twelve drummers drumming, eleven pipers piping
+        Ten lords a leaping, nine ladies dancing, eight maids a milking
+        Seven swans a swimming, six geese a laying, five gold rings
+        Four calling birds, three French hens
+        Two turtle doves and a partridge in a pear tree
+
+        */
+
+        fn main()
+        {
+            
+            let mut day: usize = 1; // wanted to use u8, but received the error, "the type `[&str]` cannot be indexed by `u8`. slice indices are of type `usize` or ranges of `usize`". As it is used for a loop, this it must be "usize" datatype.
+
+            
+            let day_1_gift = "A partridge in a pear tree";
+            let day_2_gift = "Two turtle doves and ";
+            let day_3_gift = "Three French hens, ";
+            let day_4_gift = "Four calling birds, ";
+            let day_5_gift = "Five gold rings, ";
+            let day_6_gift = "Six geese a laying, ";
+            let day_7_gift = "Seven swans a swimming, ";
+            let day_8_gift = "Eight maids a milking, ";
+            let day_9_gift = "Nine ladies dancing, ";
+            let day_10_gift = "Ten lords a leaping, ";
+            let day_11_gift = "Eleven pipers piping, ";
+            let day_12_gift = "Twelve drummers drumming, ";
+
+            let _array = [  day_1_gift, day_2_gift, day_3_gift,
+                            day_4_gift, day_5_gift, day_6_gift,
+                            day_7_gift, day_8_gift, day_9_gift,
+                            day_10_gift, day_11_gift, day_12_gift
+                        ];
+
+            // Tried to implement a for loop variation, but I couldn't figure out how
+            while day <=12
+            {
+
+            let mut index = day;
+
+            println!("On the {} day of Christmas my true love gave to me:", day);
+            
+                if day == 1
+                {
+                    println!("A partridge in a pear tree\n");
+                }
+                else
+                {
+                    while index > 0
+                    {
+                        println!("{}", _array[index-1]);
+                        index -= 1;
+                    }
+                    println!("\n");
+                }
+                
+                day += 1;
+            }
+        }
+
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Remember that variables (e.g. index) used in loops must be of size usize and mutable.
+    - Index values to iterate through arrays require 'minus 1'
+    

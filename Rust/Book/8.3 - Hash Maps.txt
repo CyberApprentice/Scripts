@@ -1,0 +1,112 @@
+Hash Maps
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new hash_maps
+
+    2. Crates
+        N/A
+
+    3. Code
+        use std::collections::HashMap;  // import crate to utilize hash_maps
+
+
+        #[allow(unused_variables)]  // ignore unused variable warnings
+        #[allow(unused_mut)]  // ignore unused mutable variable warnings
+        #[allow(unused_imports)]  // ignore unused imports warnings
+
+        fn main()
+        {
+            // Create an empty hash map
+            let mut scores = HashMap::new();        // HashMap<K, V>
+            
+            // Filling the empty hashmap with key:value pairs
+            scores.insert(String::from("Blue"), 10);  // K (String)= "Blue", V (i32) = 10;
+            scores.insert(String::from("Yellow"), 50);  // Yellow, 50  
+
+            // Coverting vectors into Tuples, then into HashMap
+            let teams = vec![String::from("Blue"), String::from("Yellow")]; // vector of two Strings
+            let initial_scores = vec![10,50]; // vector of two i32
+
+            let mut scores: HashMap<_, _> =    // storing the result in the new variable "scores" as the data type annotation, "HashMap<_,_>"
+                teams.into_iter()   // converting into an iterator
+                    .zip    // zip is used to iterator two interators, teams and initial_scores
+                    (       // zip created a vector of tupless
+                        initial_scores.into_iter()  // convert to an interator
+                    ) 
+                    .collect(); // transforms an iterator into a collection
+                                    // And if we look at line 20, we are specifically converting it to a HashMap<_,_> collection
+
+            // Ownership example 
+            let field_name = String::from("fav colour");
+            let field_value = String::from("blue");
+
+            let mut map = HashMap::new();
+            map.insert(field_name, field_value);    // ownership of the two variables has been passed to HashMap
+                // From henceforth, use of field_* will cause errors
+                // Use references (&) to prevent this
+
+
+            // Accessing HashMap values - Using get()
+            let score = scores.get("Blue"); // score = 10. The actual return value is Some(&10) because get() returns an Option<&V>
+                                                // Which is good because if no value is present, it will return "None" and not panic
+            
+            // Iterating HashMaps
+            for (key,value) in &scores
+            {
+                println!("{}: {}", key, value); // key, value are reserved for hashMaps
+            }
+
+            // Updating Values
+
+                // Method 1 - overwriting using insert()
+            
+            scores.insert(String::from("Blue"), 25);    // from 10 to 25
+            println!("{:?}", scores); // did not need #[derive(Debug)] as it is only needed for structs & enums
+
+                // Method 2 - check if value is empty - using entry() and or_insert()
+
+            scores.entry(String::from("Green")).or_insert(50);  // check if the key, "green", has any value. If it does, have a value, do nothing.
+                                                                    // If it does not have a value, insert "50". This is an example of inserting 50
+            scores.entry(String::from("Blue")).or_insert(50);   //  Example of no change to the hashMap because a value already exists for the key
+                                                                // In addition, or_insert will return a mutable reference, in this case 50 would be mutable
+
+                // World Example - count occurrences of words
+            
+            let text = "hello world wonderful world";   // instanitate a String to find word occurences
+
+            let mut map = HashMap::new();   // define an empty hashmap
+
+            for word in text.split_whitespace()     // index value = word. Iterating through String, text, while ignoring white spaces
+            {
+                let count = map.entry(word).or_insert(0);   // Shadow the variable count. For each new word, enter the value, 0.
+                                                                // Count is a new variable and becomes the type of whatever is initially thrown in it, in this case &mut i32. We can or cannot specify if it is mutable or not, it doesn't matter.alloc
+                                                                // Since it is shadowed, it will continue to be mutable and the mutable into an immutable error will not occur
+                *count += 1;    // for each duplicate word, add one
+            }   // scope ends here
+
+            println!("{:?}", map);  // print the new hashmap
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Equivalent to Dictionaries in Python (key:value pairs)
+    - Syntax: HashMap<K,V>
+        - Reference the value, V, using the key, K
+        - Instead of referring to the value, V, by index, you use K, which could be a string
+        - Ex: Team 1 (K) : Score 50 (V); Team 2: 60
+    - Data stored on the Heap
+    - All keys must be of the same type and all values must be of the same type
+        - keys and values don't have to be the same type
+        - Ex: "test1" = 1; "test2" = 2;
+    - HashMaps take ownership of variabled inserted to it
+    - Only one value per key

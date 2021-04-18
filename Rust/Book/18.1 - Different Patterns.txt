@@ -1,0 +1,62 @@
+18.1 - Different Patterns
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new different_patterns
+
+    2. Crates
+        N/A
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - match
+        - Syntax:
+            match VALUE 
+            {
+                PATTERN => EXPRESSION,
+                PATTERN => EXPRESSION,
+                PATTERN => EXPRESSION,
+            }
+        - Every possible match must be accouted for. Use '_' as a catch-all pattern
+    - if let
+        - a shorter version of match for one arm
+        - Different types:
+            - if let
+            - else if let
+            - else
+        - Is not exhaustive like match, where every possible match must be accounted for.
+            - i.e. an else statement isn't required
+    - while let
+        - runs a while loop as long as a pattern continues to match
+    - let
+        - understood as instaintiating a variable, but is a matching statement
+        - Syntax: let PATTERN = EXPRESSION
+    - function parameters
+        - understood as setting a data type, but is also a matching statement
+        - Syntax: fn FUNCTION_NAME (PATTERN: EXPRESSION) {}
+        - similar to how let statements are used
+    - Irrefutable
+        - a pattern that will match
+            - Ex: let x = 5;
+        - function parameters, let statements, and for loops all require irrefutable values
+        - Attempting to set a Refutable value to a irrefutable statement will cause a compile error
+            - Ex: let Some(x) = some_option_value;
+    - Refutable
+        - a pattern that could fail a match
+            - Ex: if let Some(x) = a_value;
+                - If it is None, it will not match
+        - if let and while let can be either or
+        
+    

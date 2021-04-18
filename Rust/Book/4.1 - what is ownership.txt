@@ -1,0 +1,111 @@
+What is Ownership?
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new ownership
+
+    2. Crates
+        N/A
+
+    3. Code
+        fn main()
+        {
+            // stack variable example
+            let x = "Hello World"; // stack variables are fixed in length. Heap variables are not.
+            println!("{}", x);
+
+            // heap variable example
+            let mut s = String::from("Hello"); //not a literal, card-coded string like "let s = "Hello";". The difference is that it can be mutated (mutable) like below
+                // String::from requsts memory to store on the Heap. Whereas string literals utilize the Stack.
+            
+
+            s.push_str(", world!"); //appending
+
+            println!("{}", s); // the change
+            
+            // move example
+            let s1 = String::from("Hello");
+            let s2 = s1;
+                // This copies the pointer, length, and capacity of the 's' variable stored on the stack. In comparsion to a literal value that copies the actual value (e.g. "Hello, world!")
+                
+            println!("{}", s2);
+                // Using s1 in the print statement will fail to avoid double free memory error. Since s1 = s2, it is a copy. Once the drop() function occurs, the OS will try to clear up 2 of the same references, which is BAD! So in Rust, s1 is considered invalid while s2 remainds the primary variable. This is called a "move" (i.e. s1 was moved to s2)
+
+            // clone example
+            let s1 = String::from("Hello");
+            let s2 = s1.clone(); // unlike above, the clone() method will complete a "Deep copy" without invalidating s1. A deep copy is when the heap data is copied (the string "Hello"), not just the stack data (pointer, length, capcity)
+            // As a warning, cloning is very resource intensive!
+
+            println!("s1 = {}, s2 = {}", s1, s2);
+
+            // drop function outside of curly brackets example
+            let s = String::from("hello"); // heap variable
+
+            takes_ownership(s); // s leaves scope > drop() > no longer valid! = CANNOT be used again without erroring
+
+            let x = 5; // stack variable
+            makes_copy(x);  // x leaves scope > fixed type > still valid! = CAN be used again
+
+            // Return a variable to transfer ownership/scope
+            let s1 = gives_ownership();
+                // Now that s1 has been transferred we can use it once or reference
+            println!("{}",s1);
+
+
+
+        }   // At this point, the drop() function is called to return memory of anything within the curly bracket scope. As the scope ended, its use has as well.
+
+
+        fn takes_ownership(some_string: String)
+        {
+            println!("{}", some_string);
+        }
+
+        fn makes_copy(some_integer: i32)
+        {
+            println!("{}", some_integer);
+        }
+
+
+        fn gives_ownership() -> String      // returns type String
+        {
+            let some_string = String::from("Hello");    // heap variable in scope
+            some_string     // return expression and this is where the transfer begins!
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - ownership - core future of Rust
+        - In rust, memory is managed through a system of ownership with a set of rules
+    - stack - LIFO algorithm
+        - push/pop values on/off the stack
+        - Contains values/data of fixed size
+        - pointer to heap data and a functions local variables are pushed to the stack and popped when the function is over
+    - Heap
+        - Contains values/data of variable length
+        - A section of memory is allocated, an address/pointer is returned
+            - Can be stored on the stack
+        - slower than pushing to the stack because the OS has to search for space
+        - Popping data is slower because you have to follow the pointer
+    - Ownership solves the issues of utilizing heap data
+        - Those issues are:
+            - Minimizing duplicate data
+            - tracking code using data on the heap
+            - cleaning up unushed data to prevent running out of space
+    - Rules:
+        - Each value in Rust has a variable that’s called its owner
+        - There can only be one owner at a time
+        - When the owner goes out of scope, the value will be dropped
+    - Rust "moves" data to avoid double memory error
+    - Heap-linked variables store a pointer, length, and capacity.
+    - When a heap variable is used in a function, it is no longer valid because it was moved "out of scope"
+    - If a variable goes out of scope, it can be returned to be used again. If this has to be done multiple times, use references (4.2)

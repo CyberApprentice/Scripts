@@ -1,0 +1,48 @@
+Data Types
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new <name>
+        
+    2. Crates
+        <crates>
+
+    3. Code
+        <code>
+
+    4. run
+        $ cargo run
+
+Learned:
+    - signed vs unsigned
+        - signed (+ or -) = can go negative
+            - Ex: i8 stores -128 to 127
+        - unsigned = cannot go negative because there is not a "sign" to denote positive or negative. Positive is assumed.
+            - Ex: u8 stores 0 to 255
+        - If you use a number outside of the allocated space (e.g. 128 for i8), the code will panic during compiling.
+            - If the code is being released for production (--release), it will perform modulo via the number cap and return the result (e.g. i8 = 128 % 127 = 1. 1 will be used in the program instead of 128)
+            - These functions prevent integer overflow
+        - Default number data type is i32
+    - Floating points
+        - f64 is default as it has more precision than f32
+    - Char
+        - uses single quotes instead of double quotes
+        - Is Unicode, so uses more than ASCII (e.g. Accented letters; Chinese, Japanese, and Korean characters; emoji; and more)
+    - Tuples
+        - groups different types
+        - fixed in length (i.e. cannot grow or shrink)
+        - Uses parentheses
+    - Arrays
+        - all values must be the same type
+        - Also fixed length
+        - Uses brackets to define
+
+        
+        

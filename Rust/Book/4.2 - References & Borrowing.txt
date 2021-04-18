@@ -1,0 +1,73 @@
+References & Borrowing
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new references
+
+    2. Crates
+        N/A
+
+    3. Code
+        fn main()
+        {
+            // reference example
+            let s1 = String::from("Hello"); // defined a heap variable
+            
+            let len = calculate_length(&s1);    // reference the heap variable. This way, we do not pass ownership
+
+            println!("The length of {} is {}", s1, len);
+
+            // mutable refrenc example
+            let mut s = String::from("Hello");
+            change(&mut s); // pass &mut to make it mutable for modification
+
+        }
+
+        fn calculate_length(s: &String) -> usize    // when passing a referenced heap variable, also declare the data type as a reference
+        {
+            s.len()     // we are returning the expression's return
+        }
+
+        fn change(some_string: &mut String) // references are immutable by default as well so we have to make them mutable to modify
+        {
+            some_string.push_str(", world!");   
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - Instead of referring to the actual heap variable, 's1', use a reference to it, '&s1'
+    - The & refers to the value, but does not take ownership.
+    - When passing throughout scope (e.g. passing to a function as a parameter), the data type has to be referenced as well
+        - Ex: &String
+    - Referencing is also called "borrowing"
+    - Add "&mut" to make them mutable
+        - This should also be done for the data type
+            - Example: let mut s = ...;
+                        function(&mut s);
+                        fn function(string: &mut String){...}
+    - Mutable references have a restriciton = For the same variable, one mutable reference per scope
+        - This prevents data race
+            - 2+ pointers accessing data at the same time
+            - 1+ pointers used to write to the data
+            - no sync of access across data
+        - Use curly brackets to define scope
+    - Another problem is you cannot pass an immutable variable, then immediately a mutable variable without ending the scope
+        = Ex:   let r1 = &s
+                let r2 = &mut s     // bad
+
+        - Ex 2: let r1 = &s
+                println!("{}", r1);
+                let r2 = &mut s;    // good
+    - Return expressions of functions must NEVER be a reference. The data type can be a reference (i.e. -> &String) but not the last line
+        - This results in a "dangled reference". 
+            - This is a pointer to an address that is no longer available to reference
+        - 

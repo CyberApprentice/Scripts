@@ -1,0 +1,102 @@
+13.1 - Closures
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new closures
+
+    2. Crates
+        use std::thread; // used to wait
+        use std::time::Duration;    // used to wait
+
+    3. Code
+        use std::thread; // used to wait
+        use std::time::Duration;    // used to wait
+
+        fn main()
+        {
+            let simulated_user_specified_value = 10;
+            let simulated_random_number = 7;
+
+            generate_workout(simulated_user_specified_value, simulated_random_number);
+        }
+
+        fn generate_workout(intensity: u32, random_number: u32) 
+        {
+            let mut expensive_result = Cacher::new(|num|       // create a new caching instance
+            {                                                   // closure
+                println!("calculating slowly....");
+                thread::sleep(Duration::from_secs(2));  // wait for 2 seconds
+                num     // return num
+            });
+
+            if intensity < 25
+            {
+                println!("Today, do {} pushups!", expensive_result.value(intensity));
+                println!("Next, do {} situps!", expensive_result.value(intensity));
+            }
+            else
+            {
+                if random_number == 3
+                {
+                    println!("Take a break today!");
+                }
+                else
+                {
+                    println!("Today, run for {} minutes", expensive_result.value(intensity));
+                }
+            }
+        }
+
+        struct Cacher<T>
+            where
+                T: Fn(u32) -> u32,      // Fn specifies that it is a closure that must have a u32 parameter and return a u32
+        {
+            calculation: T,
+            value: Option<u32>, // prior to execution, value = None, then after the initial execution, the value will store the result permanently
+        }
+
+        impl<T> Cacher<T>
+            where  
+                T: Fn(u32) -> u32,
+        {
+            fn new (calculation: T) -> Cacher<T>
+            {
+                Cacher  // create a new instance
+                {
+                    calculation,
+                    value: None,
+                }
+            }
+
+            fn value(&mut self, arg: u32) -> u32
+            {
+                match self.value
+                {
+                    Some(v) => v,
+                    None => 
+                    {
+                        let v = (self.calculation)(arg);
+                        self.value = Some(v);
+                        v
+                    }
+                }
+            }
+        }
+
+    4. run
+        $ cargo run
+
+Learned:
+    - closures are defined within ||
+        - Ex: |parameter1, parameter 2|
+    - Closures are used to call at one point, store the code, and call it later
+    - Closures do not require data types to be annotated. This is because the compiler infers it. However, there cannot be multiple calls of the closure with different data type. The first data type is locked in.
+        - Error example: the first call passes a String and the second call passes a u32
+    - use "move" to pass ownership of the parameter to the closure

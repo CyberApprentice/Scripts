@@ -1,0 +1,42 @@
+Variables
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new variables
+        
+    2. Crates
+        N/A
+
+    3. Code
+        fn main() {
+        let mut x = 10000;
+        println!("The value of x is: {}", x);
+
+        x = 10_000;
+        println!("The value of x is: {}", x);
+        }
+
+
+    4. run
+        $ cargo run
+
+Learned:
+    - variables vs constants
+        - Constants
+            - ALWAYS immutable
+            - all caps
+        - variables
+            - immutable by default, but through "mut" can become mutable.
+    - Naming convention is underscores to represent spaces instead of Camal casing
+    - Defining variables as values can use underscores for readability (100000 or 100_000 equal the same output)
+    - shadowing vs. mutable 
+        - mutable (mut) variables are used when a variable's value is constantly changing.
+        - shadowing is used when crossing data types (from string to int) by completely redefining the variable under the same name
+        - 

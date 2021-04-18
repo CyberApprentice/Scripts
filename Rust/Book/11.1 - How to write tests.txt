@@ -1,0 +1,177 @@
+writing tests
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        $ cargo new adder
+
+    2. Crates
+        N/A
+
+    3. Code
+        #[cfg(test)]
+        mod tests {
+            // default test when "cargo new adder --lib" was ran
+            #[test]
+            fn exploration() {
+                assert_eq!(2 + 2, 4);
+            }
+
+            // fail test example
+            #[test]
+            fn another()
+            {
+                panic!("Make the test fail");
+            }
+
+            // assert! example
+            #[derive(Debug)]
+            struct Rectangle
+            {
+                width: u32,
+                height: u32,
+            }
+
+            impl Rectangle
+            {
+                fn can_hold(&self, other: &Rectangle) -> bool
+                {
+                    self.width > other.width && self.height > other.height
+                }
+            }
+
+            //use super::*; // used if we had a different module and wanted to bring connect their scopes
+            #[test]
+            fn larger_can_hold_smaller()
+            {
+                let larger = Rectangle
+                {
+                    width: 8,
+                    height: 7,
+                };
+
+                let smaller = Rectangle
+                {
+                    width: 5,
+                    height: 1
+                };
+
+                assert!(larger.can_hold(&smaller)); // return true or false if the larger variable is larger than the smaller reference
+            }
+
+            // test assert! not true
+            #[test]
+            fn smaller_cannot_hold_larger()
+            {
+                let larger = Rectangle
+                {
+                    width: 8,
+                    height: 7,
+                };
+
+                let smaller = Rectangle
+                {
+                    width: 5,
+                    height: 1,
+                };
+
+                assert!(!smaller.can_hold(&larger));    // will return false but we used '!' (not) operator to negate it
+            }
+
+            // Testing the assert_eq! macro
+
+            pub fn add_two(a: i32) -> i32
+            {
+                a + 3
+            }
+
+            #[test]
+            fn it_adds_two()
+            {
+                assert_eq!(4, add_two(2));
+            }
+            
+            // Example of adding custom messages and adding variables
+            pub fn greeting(name: &str) -> String
+            {
+                String::from("Hello!")
+            }
+
+            #[test]
+            fn greeting_contains_name()
+            {
+                let result = greeting("Carol");
+                assert!(result.contains("Carol"), "greeting did not contain name, value was {}", result);  // anything after the first , is passed to the Display trait to print
+            }
+
+            // should panic example with expected parameters
+            pub struct Guess
+            {
+                value: i32,
+            }
+            impl Guess
+            {
+                pub fn new (value: i32) -> Guess
+                {
+                    if value < 1 
+                    {
+                        panic!("Guess value must be greater than or equal to 1, got {}.", value);
+                    }
+                    else if value > 100
+                    {
+                        panic!("Guess value must be less than or equal to 100, got {}.", value);
+                    }
+
+                    Guess {value}
+                }
+            }
+
+            #[test]
+            #[should_panic(expected = "Guess value must be less than or equal to 100")]
+            fn greater_than_100()
+            {
+                Guess::new(200);    // this SHOULD FAIL!
+            }
+
+            // Result<T, E> example
+
+            #[test]
+            fn it_works() -> Result<(), String>
+            {
+                if 2 + 2 == 5
+                {
+                    Ok(())
+                }
+
+                else
+                {
+                    Err(String::from("2 + 2 != 5"))
+                }
+            }
+        }
+
+
+    4. run
+        $ cargo run
+
+Learned:
+    - test code to see if the results are what you expect
+    - functions are preluded with #[test]
+    - run "cargo test" to test
+    - tests fail when there is a panic!()
+    - Use the assert! macro to test for true. If it fails, panic!()
+    - use assert_eq! for testing true as well! 
+        Ex: assert_eq!(4, 2+2);
+            OR          4 == 2+2
+        - The parameters can be switched. Doesn't matter!
+    - use assert_ne! for != equivalent
+    - Add "#[derive(PartialEq, Debug)]" to structs and enums as these are the traits of the parameters must have
+    - Use the #[should_panic] attribute to test for values outside of limitations that should throw an error
+    - An alternative to assert! is using Result<T,E>
+        - can't use #[should_panic]

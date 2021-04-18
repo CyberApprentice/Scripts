@@ -1,0 +1,29 @@
+Template
+
+Environment:
+    Ubuntu 18.04.4 LTS
+    2GB RAM
+    1 CPU
+    20 GB Storage
+    Internet-connected
+
+Steps:
+    1. Create Cargo project
+        - continued in adder/* from 11.2
+
+    2. Crates
+        N/A
+
+    3. Code
+        N/A
+
+    4. run
+        $ cargo run
+
+Learned:
+    - unit tests only test one module at a time
+    - integration tests are external to my library and tests multiple modules
+        - requires a "test" directory at the same level as "src" so Rust knows where to for integration tests
+        - requires a src/lib.rs
+            - library crates expose functions that can be used else where. Binary crates (main.rs) are run on their own
+    - private functions can be tested
