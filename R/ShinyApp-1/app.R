@@ -4,6 +4,11 @@ library(ggplot2)
 library(dplyr)
 library(plotly)
 library(DT)
+library(rlang)
+
+# Load relevant dataset
+load(url("https://github.com/trepersec/Scripts/raw/master/R/ShinyApp-1/literacy-data.RData"))
+
 
 ui <- dashboardPage(
     # Header ----
@@ -276,3 +281,8 @@ server <- function(input, output, session) {
 
 
 shinyApp(ui, server)
+
+# Deploy to shinyapps.io
+#library(rsconnect)
+#setwd('C:/') # location of app.R and .data
+#deployApp(appName = "literacyData")
